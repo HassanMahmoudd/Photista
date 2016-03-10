@@ -17,6 +17,15 @@
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/> 
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MyAutoSuggestBox.Visibility" Value="Collapsed"/>
+
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState x:Name="WideLayout">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="400"/>
@@ -26,15 +35,7 @@
 
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="NarrowLayout">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="MyAutoSuggestBox.Visibility" Value="Collapsed"/>
-
-                    </VisualState.Setters>
-                </VisualState>
+                
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <RelativePanel>
@@ -43,9 +44,10 @@
                     FontFamily="Segoe MDL2 Assets" 
                     Content="&#xE700;"
                     FontSize="20"
-                    Width="45"
-                    Height="45"
+                    Width="50"
+                    Height="55"
                     HorizontalAlignment="Center"
+                    
                     Click="HamburgerButton_Click"
                     />
 
@@ -53,47 +55,39 @@
                        RelativePanel.RightOf="HamburgerButton"
                        FontSize="18"
                        FontWeight="Bold"
-                       Margin="20,0,0,0" />
+                       Margin="10,15,0,0"
+                       VerticalAlignment="Center"
+                       Text="All Photos"/>
 
             <AutoSuggestBox Name="MyAutoSuggestBox"
                             QueryIcon="Find" 
                             PlaceholderText="Search" 
                             RelativePanel.AlignRightWithPanel="True"
                             Width="200"
-                            Margin="0,0,10,0" />
+                            Margin="0,10,10,10" />
         </RelativePanel>
 
         <SplitView Name="MySplitView" 
                    Grid.Row="1" 
-                   DisplayMode="CompactOverlay" 
+                   DisplayMode="CompactInline" 
                    OpenPaneLength="150" 
-                   CompactPaneLength="45" >
+                   CompactPaneLength="50" >
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" 
-                         SelectionChanged="ListBox_SelectionChanged">
-                    <ListBoxItem Name="Me">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock 
-                                Text="&#xE80F;"
-                                FontFamily="Segoe MDL2 Assets" 
-                                FontSize="20" />
-                            <TextBlock Text="Me" 
-                                       FontSize="18" 
-                                       Margin="20,0,0,0" />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="Friends">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock 
-                                Text="&#xE1CE;"
-                                FontFamily="Segoe MDL2 Assets" 
-                                FontSize="20" />
-                            <TextBlock Text="Friends" 
-                                       FontSize="18" 
-                                       Margin="20,0,0,0" />
-                        </StackPanel>
-                    </ListBoxItem>
-                </ListBox>
+                <ListView Name="MenuItemsListView" 
+                          IsItemClickEnabled="True" 
+                          ItemsSource="{x:Bind MenuItems}"
+                          ItemClick="MenuItemsListView_ItemClick"
+                          >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="data:MenuItem">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{x:Bind Icon}" Height="45" Width="45" Margin="-10,10,10,0" />
+                                <TextBlock Text="{x:Bind Category}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
             </SplitView.Pane>
             <SplitView.Content>
                 <GridView Name="NewsItemGrid" HorizontalAlignment="Stretch"

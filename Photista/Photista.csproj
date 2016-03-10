@@ -101,7 +101,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\MenuItem.cs" />
+    <Compile Include="Model\MenuItemFactory.cs" />
     <Compile Include="Model\PhotoItem.cs" />
+    <Compile Include="Model\PhotoItemFactory.cs" />
     <Compile Include="PhotoItemControl.xaml.cs">
       <DependentUpon>PhotoItemControl.xaml</DependentUpon>
     </Compile>
@@ -117,9 +120,11 @@
     <Content Include="Assets\Friends 01.JPG" />
     <Content Include="Assets\Friends 02.JPG" />
     <Content Include="Assets\Friends 03.JPG" />
+    <Content Include="Assets\Friends-Icon.png" />
     <Content Include="Assets\Hassan 01.jpg" />
     <Content Include="Assets\Hassan 02.jpg" />
     <Content Include="Assets\Hassan 03.jpg" />
+    <Content Include="Assets\Me-Icon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

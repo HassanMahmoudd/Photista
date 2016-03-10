@@ -25,25 +25,20 @@ namespace Photista
     public sealed partial class MainPage : Page
     {
         private ObservableCollection<PhotoItem> PhotoItems;
+        private ObservableCollection<MenuItem> MenuItems;
         public MainPage()
         {
             this.InitializeComponent();
             PhotoItems = new ObservableCollection<PhotoItem>();
+            MenuItems = new ObservableCollection<MenuItem>();
+            MenuItemFactory.init();
+            MenuItems = MenuItemFactory.getMenuItems();
+            PhotoItemFactory.init();
+            PhotoItemFactory.getAllPhotoItems(PhotoItems);
+
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Me.IsSelected)
-            {
-                PhotoItemFactory.getPhotoItemsByCategory("Me", PhotoItems);
-                TitleTextBlock.Text = "Me";
-            }
-            else if (Friends.IsSelected)
-            {
-                PhotoItemFactory.getPhotoItemsByCategory("Friends", PhotoItems);
-                TitleTextBlock.Text = "Friends";
-            }
-        }
+        
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,7 +47,15 @@ namespace Photista
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Me.IsSelected = true;
+            
+            
+        }
+
+        private void MenuItemsListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var MenuItemTemp = (MenuItem)e.ClickedItem;
+            PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
+            TitleTextBlock.Text = MenuItemTemp.Category;
         }
     }
 }
