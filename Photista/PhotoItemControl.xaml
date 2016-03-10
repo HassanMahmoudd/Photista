@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="Photista.PhotoItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Photista"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid Name="MainPanel" Background="White" Margin="10" Height="275" Width="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainPanel.Width" Value="400"/>
+                        <Setter Target="MainPanel.Height" Value="400"/>
+                        <Setter Target="ImageTitleTextBlock.FontSize" Value="26"/>
+                        <Setter Target="ImageDescriptionTextBlock.FontSize" Value="16"/>
+                        <Setter Target="ImageCategoryTextBlock.FontSize" Value="16"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainPanel.Width" Value="200"/>
+                        <Setter Target="MainPanel.Height" Value="275"/>
+                        <Setter Target="ImageTitleTextBlock.FontSize" Value="16"/>
+                        <Setter Target="ImageDescriptionTextBlock.FontSize" Value="10"/>
+                        <Setter Target="ImageCategoryTextBlock.FontSize" Value="10"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Image Name="MyImage" Source="{x:Bind PhotoItem.ImagePath}" Stretch="Uniform"/>
+        <RelativePanel Grid.Row="1" Margin="10">
+            <TextBlock Text="{x:Bind PhotoItem.Title}"
+                       RelativePanel.AlignTopWithPanel="True"
+                       FontSize="16"
+                       TextWrapping="Wrap"
+                       Name="ImageTitleTextBlock"
+                       Margin="2"/>
+            <TextBlock Text="{x:Bind PhotoItem.Description}"
+                       RelativePanel.Below="ImageTitleTextBlock"
+                       TextWrapping="Wrap"
+                       Margin="2"
+                       Name="ImageDescriptionTextBlock"
+                       FontSize="10"/>
+            <TextBlock Text="{x:Bind PhotoItem.Category}"
+                       RelativePanel.Below="ImageDescriptionTextBlock"
+                       Margin="2"
+                       Name="ImageCategoryTextBlock"
+                       FontSize="10"/>
+        </RelativePanel>
+    </Grid>
+</UserControl>

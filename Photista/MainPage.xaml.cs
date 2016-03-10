@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Photista.Model;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,9 +24,35 @@ namespace Photista
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private ObservableCollection<PhotoItem> PhotoItems;
         public MainPage()
         {
             this.InitializeComponent();
+            PhotoItems = new ObservableCollection<PhotoItem>();
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Me.IsSelected)
+            {
+                PhotoItemFactory.getPhotoItemsByCategory("Me", PhotoItems);
+                TitleTextBlock.Text = "Me";
+            }
+            else if (Friends.IsSelected)
+            {
+                PhotoItemFactory.getPhotoItemsByCategory("Friends", PhotoItems);
+                TitleTextBlock.Text = "Friends";
+            }
+        }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Me.IsSelected = true;
         }
     }
 }
