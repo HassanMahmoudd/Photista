@@ -47,7 +47,6 @@
                     Width="50"
                     Height="55"
                     HorizontalAlignment="Center"
-                    
                     Click="HamburgerButton_Click"
                     />
             <Button Name="BackButton"
@@ -100,15 +99,29 @@
                 
             </SplitView.Pane>
             <SplitView.Content>
-                <GridView Name="NewsItemGrid" HorizontalAlignment="Stretch"
+                <Grid>
+                    
+                    <GridView Name="NewsItemGrid" HorizontalAlignment="Stretch"
                           Margin="0,0,0,0" ItemsSource="{x:Bind PhotoItems}"
-                          Background="LightGray">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="data:PhotoItem">
-                            <local:PhotoItemControl/>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+                          Background="LightGray"
+                          Drop="NewsItemGrid_Drop"
+                          AllowDrop="True"
+                          DragOver="NewsItemGrid_DragOver">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="data:PhotoItem">
+                                <local:PhotoItemControl/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                        
+                    </GridView>
+                    <TextBlock Text="Please drag and drop an image" 
+                               FontSize="26"
+                               Opacity="0.5"
+                               Name="WaterMarkTextBlock"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+                
             </SplitView.Content>
         </SplitView>
 

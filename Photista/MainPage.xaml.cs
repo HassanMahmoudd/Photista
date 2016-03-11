@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Photista.Model;
 using System.Collections.ObjectModel;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -36,6 +39,7 @@ namespace Photista
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             BackButton.Visibility = Visibility.Collapsed;
+           
 
         }
 
@@ -66,6 +70,45 @@ namespace Photista
             TitleTextBlock.Text = "All Photos";
             BackButton.Visibility = Visibility.Collapsed;
             MenuItemsListView.SelectedItem = null;
+        }
+
+        private async void NewsItemGrid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var items = await e.DataView.GetStorageItemsAsync();
+
+                if (items.Any())
+                {
+                    var storageFile = items[0] as StorageFile;
+                    var contentType = storageFile.ContentType;
+                    //string sourcePath = @"C:\Users\Geeek\Desktop\Photista\Photista\Assets";
+                    StorageFolder folder = ApplicationData.Current.LocalFolder;
+                    //var folder1 = await StorageFolder.GetFolderFromPathAsync(@"C:\Users\Geeek\Desktop\Photista\Photista\Assets");
+                    var folder2 = KnownFolders.PicturesLibrary;
+                    //PathTextBox.Text = folder.Path;
+
+                    if (contentType == "image/png" || contentType == "image/jpeg" || contentType == "image/jpg")
+                    {
+                        StorageFile newFile = await storageFile.CopyAsync(folder2, storageFile.Name, NameCollisionOption.GenerateUniqueName);
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
+                        PhotoItem photoItem = new PhotoItem() { Id = 7, Title = "Hassan 04", Description = "Test Photo", Category = "Me", ImagePath = bitmapImage };
+                        PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
+                    }
+                }
+                WaterMarkTextBlock.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void NewsItemGrid_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+
+            e.DragUIOverride.Caption = "Drop to add image";
+            e.DragUIOverride.IsCaptionVisible = true;
+            e.DragUIOverride.IsContentVisible = true;
+            e.DragUIOverride.IsGlyphVisible = true;
         }
     }
 }
