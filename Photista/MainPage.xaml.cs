@@ -35,6 +35,7 @@ namespace Photista
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
+            BackButton.Visibility = Visibility.Collapsed;
 
         }
 
@@ -56,6 +57,15 @@ namespace Photista
             var MenuItemTemp = (MenuItem)e.ClickedItem;
             PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
             TitleTextBlock.Text = MenuItemTemp.Category;
+            BackButton.Visibility = Visibility.Visible;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoItemFactory.getAllPhotoItems(PhotoItems);
+            TitleTextBlock.Text = "All Photos";
+            BackButton.Visibility = Visibility.Collapsed;
+            MenuItemsListView.SelectedItem = null;
         }
     }
 }

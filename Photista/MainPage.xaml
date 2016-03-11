@@ -50,9 +50,19 @@
                     
                     Click="HamburgerButton_Click"
                     />
-
+            <Button Name="BackButton"
+                    RelativePanel.RightOf="HamburgerButton"
+                    Width="50"
+                    Height="55"
+                    FontSize="20"
+                    HorizontalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE0A6;"
+                    Click="BackButton_Click"
+                    Margin="0,0,0,0"/>
+            
             <TextBlock Name="TitleTextBlock" 
-                       RelativePanel.RightOf="HamburgerButton"
+                       RelativePanel.RightOf="BackButton"
                        FontSize="18"
                        FontWeight="Bold"
                        Margin="10,15,0,0"
@@ -91,7 +101,7 @@
             </SplitView.Pane>
             <SplitView.Content>
                 <GridView Name="NewsItemGrid" HorizontalAlignment="Stretch"
-                          Margin="10,0,0,0" ItemsSource="{x:Bind PhotoItems}"
+                          Margin="0,0,0,0" ItemsSource="{x:Bind PhotoItems}"
                           Background="LightGray">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="data:PhotoItem">
