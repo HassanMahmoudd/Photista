@@ -15,6 +15,8 @@ namespace Photista.Model
         public string Description { get; set; }
         public string Category { get; set; }
         public BitmapImage ImagePath { get; set; }
+        public string ImagePath1 { get; set; }
+
     }
 
 }

@@ -29,6 +29,7 @@ namespace Photista
     {
         private ObservableCollection<PhotoItem> PhotoItems;
         private ObservableCollection<MenuItem> MenuItems;
+        private List<String> Suggestions;
         public MainPage()
         {
             this.InitializeComponent();
@@ -39,11 +40,23 @@ namespace Photista
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             BackButton.Visibility = Visibility.Collapsed;
-           
+
+            PhotoItem photoItem = new PhotoItem() { Id = 1, Title = title + "1", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 01.JPG" };
+            PhotoItem photoItem1 = new PhotoItem() { Id = 2, Title = title + "2", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 02.JPG" };
+            PhotoItem photoItem2 = new PhotoItem() { Id = 3, Title = title + "3", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 03.JPG" };
+            PhotoItem photoItem3 = new PhotoItem() { Id = 4, Title = title + "4", Description = "Test Photo", Category = "Friends", ImagePath1 = @"Assets\Hassan 01.JPG" };
+            PhotoItem photoItem4 = new PhotoItem() { Id = 5, Title = title + "5", Description = "Test Photo", Category = "Friends", ImagePath1 = @"Assets\Hassan 02.JPG" };
+
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem1);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem2);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem3);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem4);
+
+
 
         }
 
-        
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -66,11 +79,23 @@ namespace Photista
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            
+            goBack();
+            
+        }
+
+        private void goBack()
+        {
+            SearchAutoSuggestBox.Text = "";
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             TitleTextBlock.Text = "All Photos";
             BackButton.Visibility = Visibility.Collapsed;
             MenuItemsListView.SelectedItem = null;
+            
         }
+
+        int ID = 3;
+        string title = "Jemy";
 
         private async void NewsItemGrid_Drop(object sender, DragEventArgs e)
         {
@@ -93,7 +118,8 @@ namespace Photista
                         StorageFile newFile = await storageFile.CopyAsync(folder2, storageFile.Name, NameCollisionOption.GenerateUniqueName);
                         var bitmapImage = new BitmapImage();
                         bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
-                        PhotoItem photoItem = new PhotoItem() { Id = 7, Title = "Hassan 04", Description = "Test Photo", Category = "Me", ImagePath = bitmapImage };
+                        PhotoItem photoItem = new PhotoItem() { Id = ID, Title = title + ID.ToString() , Description = "Test Photo", Category = "Me", ImagePath = bitmapImage , ImagePath1 = @"C:\Users\mahmoud\Pictures\mah.jpg" };
+                        ID++;
                         PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
                     }
                 }
@@ -109,6 +135,28 @@ namespace Photista
             e.DragUIOverride.IsCaptionVisible = true;
             e.DragUIOverride.IsContentVisible = true;
             e.DragUIOverride.IsGlyphVisible = true;
+        }
+
+        private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(sender.Text)) { goBack();}
+            PhotoItemFactory.getAllPhotoItems(PhotoItems);
+            Suggestions = PhotoItems.Where(p => p.Title.StartsWith(sender.Text)).Select(p => p.Title).ToList();
+            SearchAutoSuggestBox.ItemsSource = Suggestions; 
+        }
+
+        private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+
+            if (string.IsNullOrEmpty(sender.Text)) {return; }
+            PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
+            if (PhotoItems == null) return;
+            TitleTextBlock.Text = sender.Text;         
+            BackButton.Visibility = Visibility.Visible;
+            MenuItemsListView.SelectedItem = null;
+
+
+
         }
     }
 }

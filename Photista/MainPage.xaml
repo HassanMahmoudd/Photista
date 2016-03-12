@@ -68,12 +68,16 @@
                        VerticalAlignment="Center"
                        Text="All Photos"/>
 
-            <AutoSuggestBox Name="MyAutoSuggestBox"
+            <AutoSuggestBox Name="SearchAutoSuggestBox"
                             QueryIcon="Find" 
                             PlaceholderText="Search" 
                             RelativePanel.AlignRightWithPanel="True"
                             Width="200"
-                            Margin="0,10,10,10" />
+                            Margin="0,10,10,10"
+                            TextChanged="SearchAutoSuggestBox_TextChanged"
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
+                            
+                            />
         </RelativePanel>
 
         <SplitView Name="MySplitView" 

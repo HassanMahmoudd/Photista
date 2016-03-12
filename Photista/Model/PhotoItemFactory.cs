@@ -41,6 +41,26 @@ namespace Photista.Model
             //PhotoItems.Clear();
             //AllItems.ForEach(p => PhotoItems.Add(p));
         }
+
+       /* public static void getCategory(string Title)
+        {
+            
+        }*/
+        public static void getPhotoItemByTitle(ObservableCollection<PhotoItem> PhotoItems, string Title)
+        {
+            PhotoItems.Clear();
+            ObservableCollection<PhotoItem> allPhotoItems = new ObservableCollection<PhotoItem>();
+            getAllPhotoItems(allPhotoItems);
+            if (allPhotoItems != null) { 
+            var filteredPhotoItems = allPhotoItems.Where(p => p.Title == Title).ToList();
+                
+            filteredPhotoItems.ForEach(p => PhotoItems.Add(p));
+        }
+             
+
+        }
+
+
         public static ObservableCollection<PhotoItem> Items;
         public static void init()
         {
