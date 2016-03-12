@@ -28,6 +28,7 @@ namespace Photista
     public sealed partial class MainPage : Page
     {
         private ObservableCollection<PhotoItem> PhotoItems;
+        private ObservableCollection<PhotoItem> tempItems;
         private ObservableCollection<MenuItem> MenuItems;
         private List<String> Suggestions;
         public MainPage()
@@ -35,6 +36,7 @@ namespace Photista
             this.InitializeComponent();
             PhotoItems = new ObservableCollection<PhotoItem>();
             MenuItems = new ObservableCollection<MenuItem>();
+            tempItems = new ObservableCollection<PhotoItem>();
             MenuItemFactory.init();
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
@@ -85,13 +87,12 @@ namespace Photista
         }
 
         private void goBack()
-        {
-            SearchAutoSuggestBox.Text = "";
+        {           
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             TitleTextBlock.Text = "All Photos";
             BackButton.Visibility = Visibility.Collapsed;
             MenuItemsListView.SelectedItem = null;
-            
+            SearchAutoSuggestBox.Text = "";
         }
 
         int ID = 3;
@@ -139,23 +140,26 @@ namespace Photista
 
         private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (string.IsNullOrEmpty(sender.Text)) { goBack();}
-            PhotoItemFactory.getAllPhotoItems(PhotoItems);
-            Suggestions = PhotoItems.Where(p => p.Title.StartsWith(sender.Text)).Select(p => p.Title).ToList();
+            if (string.IsNullOrEmpty(sender.Text)) { return; }
+            PhotoItemFactory.getAllPhotoItems(tempItems);
+            Suggestions = tempItems.Where(p => p.Title.StartsWith(sender.Text)).Select(p => p.Title).ToList();
             SearchAutoSuggestBox.ItemsSource = Suggestions; 
         }
 
         private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
 
-            if (string.IsNullOrEmpty(sender.Text)) {return; }
+            if (string.IsNullOrEmpty(sender.Text)) {return;}
             PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
-            if (PhotoItems == null) return;
+            if (PhotoItems == null)
+            {
+                PhotoItemFactory.getAllPhotoItems(PhotoItems);
+                return;
+            }
+
             TitleTextBlock.Text = sender.Text;         
             BackButton.Visibility = Visibility.Visible;
             MenuItemsListView.SelectedItem = null;
-
-
 
         }
     }
