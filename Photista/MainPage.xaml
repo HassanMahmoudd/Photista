@@ -115,13 +115,14 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button Margin="0,0,0,0" Background="Transparent">
+                    <Button Name="AddCategoryButton" Margin="0,0,0,0" Background="Transparent" Click="AddCategoryButton_Click">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="Assets/Friends-Icon.png" Height="45" Width="45" Margin="-10,0,10,0" />
                                 <TextBlock Text="Add" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button.Content>
+                     
                     </Button>
                 </StackPanel>
             </SplitView.Pane>

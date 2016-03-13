@@ -27,7 +27,7 @@ namespace Photista
             {
                 var bitmapImage = new BitmapImage();
                 bitmapImage.SetSource(await file.OpenAsync(FileAccessMode.Read));
-                PhotoItem photoItem = new PhotoItem() { Id = 10, Title = file.Name, Description = "Test Photo", Category = "Me", ImagePath = bitmapImage };
+                PhotoItem photoItem = new PhotoItem() { Id = 10, Title = file.Name, Description = "Test Photo", Category = Category, ImagePath = bitmapImage };
                 PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
 
             }

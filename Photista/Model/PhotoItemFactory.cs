@@ -9,20 +9,18 @@ namespace Photista.Model
 {
     public class PhotoItemFactory
     {
-        public static List<List<PhotoItem>> AllLists;
+        public static List<ListItem> AllLists;
+        public static List<PhotoItem> unCategorized;
         public static List<PhotoItem> Me;
         public static List<PhotoItem> Friends;
+        public static ListItem temp;
+
         public static void getPhotoItemsByCategory(string Category, ObservableCollection<PhotoItem> PhotoItems)
         {
             PhotoItems.Clear();
-            if(Category == "Me")
-            {
-                Me.ForEach(p => PhotoItems.Add(p));
-            }
-            else if(Category == "Friends")
-            {
-                Friends.ForEach(p => PhotoItems.Add(p));
-            }
+            temp = AllLists.Find(p => p.category == Category);
+            if(temp != null)
+            temp.list.ForEach(p => PhotoItems.Add(p));           
             //var AllItems = getPhotoItems();
             //var FilteredItems = PhotoItems.Where(p => p.Category == Category).ToList();
             //PhotoItems.Clear();
@@ -33,7 +31,7 @@ namespace Photista.Model
             PhotoItems.Clear();
             for (int i = 0; i < AllLists.Count; i++)
             {
-                List<PhotoItem> temp = AllLists[i];
+                List<PhotoItem> temp = AllLists[i].list;
                 temp.ForEach(p => PhotoItems.Add(p));
             }
             //PhotoItems = Items;
@@ -62,34 +60,34 @@ namespace Photista.Model
 
 
         public static ObservableCollection<PhotoItem> Items;
+
         public static void init()
-        {
-            AllLists = new List<List<PhotoItem>>();
+        {           
+            AllLists = new List<ListItem>();
             Me = new List<PhotoItem>();
             Friends = new List<PhotoItem>();
-            AllLists.Add(Me);
-            AllLists.Add(Friends);
-            //Items = new ObservableCollection<PhotoItem>();
-            //Items.Add(new PhotoItem() { Id = 1, Title = "Hassan 01", Description = "Photo Test", Category = "Me", ImagePath = "Assets/Hassan 01.jpg" });
-            //Items.Add(new PhotoItem() { Id = 2, Title = "Hassan 02", Description = "Photo Test", Category = "Me", ImagePath = "Assets/Hassan 02.jpg" });
-            //Items.Add(new PhotoItem() { Id = 3, Title = "Hassan 03", Description = "Photo Test", Category = "Me", ImagePath = "Assets/Hassan 03.jpg" });
-            //Items.Add(new PhotoItem() { Id = 4, Title = "Friends 01", Description = "Photo Test", Category = "Friends", ImagePath = "Assets/Friends 01.jpg" });
-            //Items.Add(new PhotoItem() { Id = 5, Title = "Friends 02", Description = "Photo Test", Category = "Friends", ImagePath = "Assets/Friends 02.jpg" });
-            //Items.Add(new PhotoItem() { Id = 6, Title = "Friends 03", Description = "Photo Test", Category = "Friends", ImagePath = "Assets/Friends 03.jpg" });
+            unCategorized = new List<PhotoItem>();
+            temp = new ListItem();
+            AllLists.Add(new ListItem("Me",Me));
+            AllLists.Add(new ListItem("Friends",Friends));
+            AllLists.Add(new ListItem("unCategorized", unCategorized));
+
+
 
 
         }
+
         public static void updatePhotoItems(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem)
         {
-            if(photoItem.Category == "Me")
-            {
-                Me.Add(photoItem);
-            }
-            else if(photoItem.Category == "Friends")
-            {
-                Friends.Add(photoItem);
-            }
+            AllLists.Where(p => p.category == photoItem.Category);
+            temp = AllLists.Find(p => p.category == photoItem.Category);
+            if (temp != null) temp.list.Add(photoItem);           
             PhotoItems.Add(photoItem);
+        }
+
+        public static void addCategory(string name)
+        {
+            AllLists.Add(new ListItem(name, new List<PhotoItem>()));
         }
 
         public static ObservableCollection<PhotoItem> getPhotoItems()

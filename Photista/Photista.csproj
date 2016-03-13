@@ -101,6 +101,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ListItem.cs" />
     <Compile Include="Model\MenuItem.cs" />
     <Compile Include="Model\MenuItemFactory.cs" />
     <Compile Include="Model\PhotoItem.cs" />
