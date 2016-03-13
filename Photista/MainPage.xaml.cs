@@ -43,11 +43,33 @@ namespace Photista
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             BackButton.Visibility = Visibility.Collapsed;
 
-            PhotoItem photoItem = new PhotoItem() { Id = 1, Title = title + "1", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 01.JPG" };
-            PhotoItem photoItem1 = new PhotoItem() { Id = 2, Title = title + "2", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 02.JPG" };
-            PhotoItem photoItem2 = new PhotoItem() { Id = 3, Title = title + "3", Description = "Test Photo", Category = "Me", ImagePath1 = @"Assets\Friends 03.JPG" };
-            PhotoItem photoItem3 = new PhotoItem() { Id = 4, Title = title + "4", Description = "Test Photo", Category = "Friends", ImagePath1 = @"Assets\Hassan 01.JPG" };
-            PhotoItem photoItem4 = new PhotoItem() { Id = 5, Title = title + "5", Description = "Test Photo", Category = "Friends", ImagePath1 = @"Assets\Hassan 02.JPG" };
+
+            // testing code
+            Uri uri = new Uri("ms-appx:///Assets/Friends 01.JPG");
+            BitmapImage i = new BitmapImage(uri);
+
+            PhotoItem photoItem  = new PhotoItem() { Id = 1, Title = title + "1", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Friends 02.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem1 = new PhotoItem() { Id = 2, Title = title + "2", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Friends 03.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem2 = new PhotoItem() { Id = 3, Title = title + "3", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 01.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem3 = new PhotoItem() { Id = 4, Title = title + "4", Description = "Test Photo", Category = "Friends", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 02.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem4 = new PhotoItem() { Id = 5, Title = title + "5", Description = "Test Photo", Category = "Friends", ImagePath = i };
+           
 
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem1);
@@ -55,6 +77,7 @@ namespace Photista
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem3);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem4);
 
+            // End
 
 
         }
@@ -95,12 +118,18 @@ namespace Photista
             SearchAutoSuggestBox.Text = "";
         }
 
-        int ID = 3;
+        //testing code
+        int ID = 6;
         string title = "Jemy";
+        //end
+
+        public string Category = "Me";
 
         private async void NewsItemGrid_Drop(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+         
+
+                if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 var items = await e.DataView.GetStorageItemsAsync();
 
@@ -119,7 +148,7 @@ namespace Photista
                         StorageFile newFile = await storageFile.CopyAsync(folder2, storageFile.Name, NameCollisionOption.GenerateUniqueName);
                         var bitmapImage = new BitmapImage();
                         bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
-                        PhotoItem photoItem = new PhotoItem() { Id = ID, Title = title + ID.ToString() , Description = "Test Photo", Category = "Me", ImagePath = bitmapImage , ImagePath1 = @"C:\Users\mahmoud\Pictures\mah.jpg" };
+                        PhotoItem photoItem = new PhotoItem() { Id = ID, Title = title + ID.ToString() , Description = "Test Photo", Category = Category, ImagePath = bitmapImage};
                         ID++;
                         PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
                     }
@@ -161,6 +190,12 @@ namespace Photista
             BackButton.Visibility = Visibility.Visible;
             MenuItemsListView.SelectedItem = null;
 
+        }
+
+       
+        private void AddPicButton_Click(object sender, RoutedEventArgs e)
+        {
+            PicPicker.choosePicture(PhotoItems, Category);
         }
     }
 }

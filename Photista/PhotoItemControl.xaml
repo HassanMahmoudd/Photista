@@ -43,7 +43,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Image Name="MyImage" Source="{x:Bind PhotoItem.ImagePath1}" Stretch="Uniform"/>
+        <Image Name="MyImage" Source="{x:Bind PhotoItem.ImagePath}" Stretch="Uniform"/>
         <RelativePanel Grid.Row="1" Margin="10">
             <TextBlock Text="{x:Bind PhotoItem.Title}"
                        RelativePanel.AlignTopWithPanel="True"

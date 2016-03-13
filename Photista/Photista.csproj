@@ -108,6 +108,7 @@
     <Compile Include="PhotoItemControl.xaml.cs">
       <DependentUpon>PhotoItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PicPicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
