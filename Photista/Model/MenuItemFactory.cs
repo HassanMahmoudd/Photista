@@ -16,6 +16,7 @@ namespace Photista.Model
             Items = new List<MenuItem>();
             Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
             Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Friends" });
+            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });
         }
 
         public static ObservableCollection<MenuItem> getMenuItems()
@@ -31,6 +32,7 @@ namespace Photista.Model
             MenuItem temp = new MenuItem() { Icon = "Assets/Me-Icon.png", Category = name };
             Items.Add(temp);
             MenuItems.Add(temp);
+         
         }
     }
 }

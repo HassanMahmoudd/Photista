@@ -27,6 +27,9 @@ namespace Photista
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private PhotoItem photoitem;
+        private PhotoItemControl photoitemcontrol;
+        private Boolean selected;
         private ObservableCollection<PhotoItem> PhotoItems;
         private ObservableCollection<PhotoItem> tempItems;
         private ObservableCollection<MenuItem> MenuItems;
@@ -34,6 +37,9 @@ namespace Photista
         public MainPage()
         {
             this.InitializeComponent();
+            selected = false;
+            photoitem = new PhotoItem();
+            photoitemcontrol = new PhotoItemControl();
             PhotoItems = new ObservableCollection<PhotoItem>();
             MenuItems = new ObservableCollection<MenuItem>();
             tempItems = new ObservableCollection<PhotoItem>();
@@ -69,7 +75,6 @@ namespace Photista
             i = new BitmapImage(uri);
 
             PhotoItem photoItem4 = new PhotoItem() { Id = 5, Title = title + "5", Description = "Test Photo", Category = "Friends", ImagePath = i };
-           
 
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem1);
@@ -78,7 +83,6 @@ namespace Photista
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem4);
 
             // End
-
 
         }
 
@@ -130,9 +134,13 @@ namespace Photista
 
         private async void NewsItemGrid_Drop(object sender, DragEventArgs e)
         {
-         
 
-                if (e.DataView.Contains(StandardDataFormats.StorageItems))
+
+           // await JasonHandler.writeJsonAsync();
+
+            /*
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 var items = await e.DataView.GetStorageItemsAsync();
 
@@ -157,7 +165,7 @@ namespace Photista
                     }
                 }
                 WaterMarkTextBlock.Visibility = Visibility.Collapsed;
-            }
+            }*/
         }
 
         private void NewsItemGrid_DragOver(object sender, DragEventArgs e)
@@ -198,7 +206,9 @@ namespace Photista
        
         private void AddPicButton_Click(object sender, RoutedEventArgs e)
         {
+            
             PicPicker.choosePicture(PhotoItems, Category);
+            AddPicButton.Flyout.Hide();
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -210,6 +220,43 @@ namespace Photista
             TitleTextBlock.Text = flyoutCategoryName;
             BackButton.Visibility = Visibility.Visible;
             Category = flyoutCategoryName;
+        }
+
+        private void deletePicButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (selected == false)deletePicButton.Flyout.Hide();
+        }
+        object x;
+        private void PhotoItemControl_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            selected = true;
+            photoitemcontrol = (PhotoItemControl)sender;
+            x = sender;
+            photoitem = photoitemcontrol.PhotoItem;
+            deletePicButton.Visibility = Visibility.Visible;
+            
+        }
+
+        private void yesButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (selected)
+            {
+                PhotoItemFactory.deletePhotoItem(PhotoItems, photoitem);
+                selected = !selected;
+            }
+            deletePicButton.Flyout.Hide();
+            deletePicButton.Visibility = Visibility.Collapsed;
+
+
+        }
+
+        private void noButton_Click(object sender, RoutedEventArgs e)
+        {
+            deletePicButton.Flyout.Hide();
+            deletePicButton.Visibility = Visibility.Collapsed;
+            selected = !selected;
+            
+
         }
     }
 }

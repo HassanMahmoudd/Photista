@@ -13,6 +13,8 @@ namespace Photista.Model
         public static List<PhotoItem> unCategorized;
         public static List<PhotoItem> Me;
         public static List<PhotoItem> Friends;
+        public static List<PhotoItem> Favorites;
+
         public static ListItem temp;
 
         public static void getPhotoItemsByCategory(string Category, ObservableCollection<PhotoItem> PhotoItems)
@@ -58,6 +60,22 @@ namespace Photista.Model
 
         }
 
+        public static void deletePhotoItem(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem)
+        {
+            AllLists.Where(p => p.category == photoItem.Category);
+            temp = AllLists.Find(p => p.category == photoItem.Category);
+            if (temp != null) temp.list.Remove(photoItem);
+            PhotoItems.Remove(photoItem);
+        }
+           
+        public static void addtofavorite(PhotoItem photoItem)
+        {
+            Favorites.Add(photoItem);
+        }
+        public static void removefromfavorite(PhotoItem photoItem)
+        {
+            Favorites.Remove(photoItem);
+        }
 
         public static ObservableCollection<PhotoItem> Items;
 
@@ -67,6 +85,7 @@ namespace Photista.Model
             Me = new List<PhotoItem>();
             Friends = new List<PhotoItem>();
             unCategorized = new List<PhotoItem>();
+            Favorites = new List<PhotoItem>();
             temp = new ListItem();
             AllLists.Add(new ListItem("Me",Me));
             AllLists.Add(new ListItem("Friends",Friends));
