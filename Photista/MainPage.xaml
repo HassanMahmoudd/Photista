@@ -10,6 +10,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,7 +20,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="NarrowLayout">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/> 
+                        <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SearchAutoSuggestBox.Visibility" Value="Collapsed"/>
@@ -35,9 +36,10 @@
 
                     </VisualState.Setters>
                 </VisualState>
-                
+
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+
         <RelativePanel>
             <Button Name="HamburgerButton" 
                     RelativePanel.AlignLeftWithPanel="True"
@@ -61,7 +63,7 @@
                     Click="BackButton_Click"
                     Margin="0,0,0,0"
                     Background="Transparent"/>
-            
+
             <TextBlock Name="TitleTextBlock" 
                        RelativePanel.RightOf="BackButton"
                        FontSize="18"
@@ -79,7 +81,7 @@
                             TextChanged="SearchAutoSuggestBox_TextChanged"
                             QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted"
                             />
-      
+
             <Button Name="AddPicButton" 
                     RelativePanel.LeftOf="deletePicButton"
                     Width="50"
@@ -92,7 +94,7 @@
                     Background="Transparent"
                     Click="AddPicButton_Click">
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout Placement="Bottom">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -147,7 +149,7 @@
                                     Background="Transparent"
                                     Margin="0,0,10,0"
                                     Click="yesButton_Click"></Button>
-                                
+
                                 <Button Name="noButton"
                                     FontFamily="Arial"
                                     Content="No" 
@@ -158,7 +160,7 @@
                                     Background="Transparent"
                                    Click="noButton_Click"></Button>
                             </StackPanel>
-                           
+
                         </Grid>
                     </Flyout>
                 </Button.Flyout>
@@ -173,9 +175,9 @@
                    CompactPaneLength="50" >
             <SplitView.Pane>
                 <StackPanel>
-                    
-               
-                <ListView Name="MenuItemsListView" 
+
+
+                    <ListView Name="MenuItemsListView" 
                           IsItemClickEnabled="True" 
                           ItemsSource="{x:Bind MenuItems}"
                           ItemClick="MenuItemsListView_ItemClick"
@@ -196,10 +198,11 @@
                                 <TextBlock Text="Add" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button.Content>
-                     
+
                     </Button>
                 </StackPanel>
             </SplitView.Pane>
+
             <SplitView.Content>
                 <Grid>
                     <TextBlock Text="Please drag and drop an image" 
@@ -219,13 +222,16 @@
                                 <local:PhotoItemControl Tapped="PhotoItemControl_Tapped"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
-                        
+
                     </GridView>
-                    
+                    <Image Name="GridImage" Stretch="Uniform"/>
                 </Grid>
-                
             </SplitView.Content>
+
+
         </SplitView>
+        
 
     </Grid>
+
 </Page>

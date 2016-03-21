@@ -34,6 +34,9 @@ namespace Photista
         private ObservableCollection<PhotoItem> tempItems;
         private ObservableCollection<MenuItem> MenuItems;
         private List<String> Suggestions;
+        private MenuItem menuItemTemp;
+        private string Category;
+        private bool isFullViewPageActivated;
         public MainPage()
         {
             this.InitializeComponent();
@@ -43,13 +46,15 @@ namespace Photista
             PhotoItems = new ObservableCollection<PhotoItem>();
             MenuItems = new ObservableCollection<MenuItem>();
             tempItems = new ObservableCollection<PhotoItem>();
+            menuItemTemp = new MenuItem();
             MenuItemFactory.init();
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             BackButton.Visibility = Visibility.Collapsed;
-
-
+            Category = "unCategorized";
+            GridImage.Visibility = Visibility.Collapsed;
+            WaterMarkTextBlock.Visibility = Visibility.Collapsed;
             // testing code
             Uri uri = new Uri("ms-appx:///Assets/Friends 01.JPG");
             BitmapImage i = new BitmapImage(uri);
@@ -100,12 +105,22 @@ namespace Photista
 
         private void MenuItemsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            if(isFullViewPageActivated)
+            {
+                isFullViewPageActivated = false;
+                GridImage.Source = null;
+                GridImage.Visibility = Visibility.Collapsed;
+                NewsItemGrid.Visibility = Visibility.Visible;
+                AddPicButton.Visibility = Visibility.Visible;
+                deletePicButton.Visibility = Visibility.Collapsed;
+            }
             var MenuItemTemp = (MenuItem)e.ClickedItem;
             PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
             TitleTextBlock.Text = MenuItemTemp.Category;
             BackButton.Visibility = Visibility.Visible;
             Category = MenuItemTemp.Category;
             TitleTextBlock.Text = Category;
+            menuItemTemp = MenuItemTemp;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -116,13 +131,47 @@ namespace Photista
         }
 
         private void goBack()
-        {           
-            PhotoItemFactory.getAllPhotoItems(PhotoItems);
-            TitleTextBlock.Text = "All Photos";
-            BackButton.Visibility = Visibility.Collapsed;
-            MenuItemsListView.SelectedItem = null;
-            Category = "unCategorized";
-            SearchAutoSuggestBox.Text = "";
+        {
+            if(isFullViewPageActivated)
+            {
+
+                //MyFrame.GoBack();
+                
+                //MyFrame.Navigate(typeof(TempPage));
+                
+                if(Category.Equals("unCategorized"))
+                {
+                    PhotoItemFactory.getAllPhotoItems(PhotoItems);
+                    TitleTextBlock.Text = "All Photos";
+                    BackButton.Visibility = Visibility.Collapsed;
+                }
+                    
+                else
+                {
+                    PhotoItemFactory.getPhotoItemsByCategory(menuItemTemp.Category, PhotoItems);
+                    TitleTextBlock.Text = Category;
+                    BackButton.Visibility = Visibility.Visible;
+                    MenuItemsListView.SelectedItem = menuItemTemp;
+                }
+                    
+               
+                isFullViewPageActivated = false;
+                GridImage.Source = null;
+                GridImage.Visibility = Visibility.Collapsed;
+                NewsItemGrid.Visibility = Visibility.Visible;
+                AddPicButton.Visibility = Visibility.Visible;
+                deletePicButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                PhotoItemFactory.getAllPhotoItems(PhotoItems);
+                TitleTextBlock.Text = "All Photos";
+                BackButton.Visibility = Visibility.Collapsed;
+                MenuItemsListView.SelectedItem = null;
+                Category = "unCategorized";
+                SearchAutoSuggestBox.Text = "";
+            }           
+            
         }
 
         //testing code
@@ -130,7 +179,7 @@ namespace Photista
         string title = "Jemy";
         //end
 
-        public string Category = "unCategorized";
+        
 
         private async void NewsItemGrid_Drop(object sender, DragEventArgs e)
         {
@@ -138,7 +187,7 @@ namespace Photista
 
            // await JasonHandler.writeJsonAsync();
 
-            /*
+            
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
@@ -165,7 +214,7 @@ namespace Photista
                     }
                 }
                 WaterMarkTextBlock.Visibility = Visibility.Collapsed;
-            }*/
+            }
         }
 
         private void NewsItemGrid_DragOver(object sender, DragEventArgs e)
@@ -188,7 +237,15 @@ namespace Photista
 
         private void SearchAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-
+            if (isFullViewPageActivated)
+            {
+                isFullViewPageActivated = false;
+                GridImage.Source = null;
+                GridImage.Visibility = Visibility.Collapsed;
+                NewsItemGrid.Visibility = Visibility.Visible;
+                AddPicButton.Visibility = Visibility.Visible;
+                deletePicButton.Visibility = Visibility.Collapsed;
+            }
             if (string.IsNullOrEmpty(sender.Text)) {return;}
             PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
             if (PhotoItems == null )
@@ -198,6 +255,7 @@ namespace Photista
             }
             if( PhotoItems.Count == 0)  TitleTextBlock.Text = "Title Not Found";
             else TitleTextBlock.Text = sender.Text;
+            
             BackButton.Visibility = Visibility.Visible;
             MenuItemsListView.SelectedItem = null;
 
@@ -234,7 +292,14 @@ namespace Photista
             x = sender;
             photoitem = photoitemcontrol.PhotoItem;
             deletePicButton.Visibility = Visibility.Visible;
-            
+           
+            GridImage.Source = photoitem.ImagePath;
+            NewsItemGrid.Visibility = Visibility.Collapsed;
+            GridImage.Visibility = Visibility.Visible;
+            BackButton.Visibility = Visibility.Visible;
+            TitleTextBlock.Text = photoitem.Title;
+            AddPicButton.Visibility = Visibility.Collapsed;
+            isFullViewPageActivated = true;
         }
 
         private void yesButton_Click(object sender, RoutedEventArgs e)
@@ -246,7 +311,7 @@ namespace Photista
             }
             deletePicButton.Flyout.Hide();
             deletePicButton.Visibility = Visibility.Collapsed;
-
+            goBack();
 
         }
 
