@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,9 +35,12 @@ namespace Photista
         private ObservableCollection<PhotoItem> tempItems;
         private ObservableCollection<MenuItem> MenuItems;
         private List<String> Suggestions;
+        
         private MenuItem menuItemTemp;
         private string Category;
         private bool isFullViewPageActivated;
+
+       
         public MainPage()
         {
             this.InitializeComponent();
@@ -46,46 +50,92 @@ namespace Photista
             PhotoItems = new ObservableCollection<PhotoItem>();
             MenuItems = new ObservableCollection<MenuItem>();
             tempItems = new ObservableCollection<PhotoItem>();
+            
             menuItemTemp = new MenuItem();
             MenuItemFactory.init();
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
             BackButton.Visibility = Visibility.Collapsed;
+            EditStackPanel.Visibility = Visibility.Collapsed;
+            EditPicButton.Visibility = Visibility.Collapsed;
             Category = "unCategorized";
             GridImage.Visibility = Visibility.Collapsed;
             WaterMarkTextBlock.Visibility = Visibility.Collapsed;
+            
             // testing code
             Uri uri = new Uri("ms-appx:///Assets/Friends 01.JPG");
             BitmapImage i = new BitmapImage(uri);
 
-            PhotoItem photoItem  = new PhotoItem() { Id = 1, Title = title + "1", Description = "Test Photo", Category = "Me", ImagePath = i };
+            PhotoItem photoItem  = new PhotoItem() { Id = 1, Title = title + "1", Description = "Test Photo", Category = "Friends", ImagePath = i };
 
             uri = new Uri("ms-appx:///Assets/Friends 02.JPG");
             i = new BitmapImage(uri);
 
-            PhotoItem photoItem1 = new PhotoItem() { Id = 2, Title = title + "2", Description = "Test Photo", Category = "Me", ImagePath = i };
+            PhotoItem photoItem1 = new PhotoItem() { Id = 2, Title = title + "2", Description = "Test Photo", Category = "Friends", ImagePath = i };
 
             uri = new Uri("ms-appx:///Assets/Friends 03.JPG");
             i = new BitmapImage(uri);
 
-            PhotoItem photoItem2 = new PhotoItem() { Id = 3, Title = title + "3", Description = "Test Photo", Category = "Me", ImagePath = i };
+            PhotoItem photoItem2 = new PhotoItem() { Id = 3, Title = title + "3", Description = "Test Photo", Category = "Friends", ImagePath = i };
 
-            uri = new Uri("ms-appx:///Assets/Hassan 01.JPG");
+            uri = new Uri("ms-appx:///Assets/Friends 04.JPG");
             i = new BitmapImage(uri);
 
             PhotoItem photoItem3 = new PhotoItem() { Id = 4, Title = title + "4", Description = "Test Photo", Category = "Friends", ImagePath = i };
 
-            uri = new Uri("ms-appx:///Assets/Hassan 02.JPG");
+            uri = new Uri("ms-appx:///Assets/Friends 05.JPG");
             i = new BitmapImage(uri);
 
             PhotoItem photoItem4 = new PhotoItem() { Id = 5, Title = title + "5", Description = "Test Photo", Category = "Friends", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Friends 06.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem5 = new PhotoItem() { Id = 6, Title = title + "6", Description = "Test Photo", Category = "Friends", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Friends 07.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem6 = new PhotoItem() { Id = 7, Title = title + "7", Description = "Test Photo", Category = "Friends", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 01.jpg");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem7 = new PhotoItem() { Id = 8, Title = title1 + "1", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 02.jpg");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem8 = new PhotoItem() { Id = 9, Title = title1 + "2", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 03.jpg");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem9 = new PhotoItem() { Id = 10, Title = title1 + "3", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 04.JPG");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem10 = new PhotoItem() { Id = 11, Title = title1 + "4", Description = "Test Photo", Category = "Me", ImagePath = i };
+
+            uri = new Uri("ms-appx:///Assets/Hassan 05.jpg");
+            i = new BitmapImage(uri);
+
+            PhotoItem photoItem11 = new PhotoItem() { Id = 12, Title = title1 + "5", Description = "Test Photo", Category = "Me", ImagePath = i };
 
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem1);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem2);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem3);
             PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem4);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem5);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem6);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem7);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem8);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem9);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem10);
+            PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem11);
 
             // End
 
@@ -113,6 +163,8 @@ namespace Photista
                 NewsItemGrid.Visibility = Visibility.Visible;
                 AddPicButton.Visibility = Visibility.Visible;
                 deletePicButton.Visibility = Visibility.Collapsed;
+                EditStackPanel.Visibility = Visibility.Collapsed;
+                flagEditPicButton = false;
             }
             var MenuItemTemp = (MenuItem)e.ClickedItem;
             PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
@@ -161,6 +213,9 @@ namespace Photista
                 NewsItemGrid.Visibility = Visibility.Visible;
                 AddPicButton.Visibility = Visibility.Visible;
                 deletePicButton.Visibility = Visibility.Collapsed;
+                EditStackPanel.Visibility = Visibility.Collapsed;
+                EditPicButton.Visibility = Visibility.Collapsed;
+                flagEditPicButton = false;
             }
             else
             {
@@ -176,7 +231,8 @@ namespace Photista
 
         //testing code
         int ID = 6;
-        string title = "Jemy";
+        string title = "Friends ";
+        string title1 = "Hassan ";
         //end
 
         
@@ -292,13 +348,14 @@ namespace Photista
             x = sender;
             photoitem = photoitemcontrol.PhotoItem;
             deletePicButton.Visibility = Visibility.Visible;
-           
+            
             GridImage.Source = photoitem.ImagePath;
             NewsItemGrid.Visibility = Visibility.Collapsed;
             GridImage.Visibility = Visibility.Visible;
             BackButton.Visibility = Visibility.Visible;
             TitleTextBlock.Text = photoitem.Title;
             AddPicButton.Visibility = Visibility.Collapsed;
+            EditPicButton.Visibility = Visibility.Visible;
             isFullViewPageActivated = true;
         }
 
@@ -322,6 +379,39 @@ namespace Photista
             selected = !selected;
             
 
+        }
+        bool flagEditPicButton = false;
+        private void EditPicButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (!flagEditPicButton)
+            {
+                EditStackPanel.Visibility = Visibility.Visible;
+                TitleTextBox.Text = photoitem.Title;
+                DescriptionTextBox.Text = photoitem.Description;
+                flagEditPicButton = !flagEditPicButton;
+                MenuItem temp = (MenuItem)CategoryListBox.SelectedItem;
+                //temp = MenuItems.Select(p => p.Category == photoitem.Category);
+                
+                
+            }
+            else
+            {
+                EditStackPanel.Visibility = Visibility.Collapsed;
+                flagEditPicButton = !flagEditPicButton;
+            }
+                
+        }
+        
+        private void SaveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            photoitem.Title = TitleTextBox.Text;
+            photoitem.Description = DescriptionTextBox.Text;
+            String oldCategory = photoitem.Category;
+            photoitem.Category = ((MenuItem)CategoryListBox.SelectedItem).Category;
+            
+            PhotoItemFactory.updatePhotoItemsAfterEdit(PhotoItems, photoitem, oldCategory);
+            TitleTextBlock.Text = TitleTextBox.Text;
         }
     }
 }

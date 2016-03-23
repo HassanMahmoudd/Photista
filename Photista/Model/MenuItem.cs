@@ -8,7 +8,7 @@ namespace Photista.Model
 {
     public class MenuItem
     {
-        public string Icon { get; set; }
-        public string Category { get; set; }
+        public String Icon { get; set; }
+        public String Category { get; set; }
     }
 }

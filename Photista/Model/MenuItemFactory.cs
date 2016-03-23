@@ -26,6 +26,8 @@ namespace Photista.Model
             return ItemsObservable;
         }
 
+        
+
         public static void addCategory(ObservableCollection<MenuItem> MenuItems , string name)
         {
             if(Items.Where(p => p.Category == name).ToList().Count != 0)return;

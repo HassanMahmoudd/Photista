@@ -23,6 +23,7 @@ namespace Photista
             picker.FileTypeFilter.Add(".png");
            
             Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            
             if (file != null)
             {
                 var bitmapImage = new BitmapImage();
