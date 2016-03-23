@@ -18,6 +18,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -304,6 +305,7 @@ namespace Photista
             }
             if (string.IsNullOrEmpty(sender.Text)) {return;}
             PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
+            Debug.WriteLine(sender.Text);
             if (PhotoItems == null )
             {
                 PhotoItemFactory.getAllPhotoItems(PhotoItems);
@@ -320,20 +322,14 @@ namespace Photista
        
         private void AddPicButton_Click(object sender, RoutedEventArgs e)
         {
-            
             PicPicker.choosePicture(PhotoItems, Category);
-            AddPicButton.Flyout.Hide();
+
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            string flyoutCategoryName = "Mahmoud";
-            MenuItemFactory.addCategory(MenuItems, flyoutCategoryName);
-            PhotoItemFactory.addCategory(flyoutCategoryName);
-            PhotoItemFactory.getPhotoItemsByCategory(flyoutCategoryName, PhotoItems);
-            TitleTextBlock.Text = flyoutCategoryName;
-            BackButton.Visibility = Visibility.Visible;
-            Category = flyoutCategoryName;
+            
+            
         }
 
         private void deletePicButton_Click(object sender, RoutedEventArgs e)
@@ -412,6 +408,22 @@ namespace Photista
             
             PhotoItemFactory.updatePhotoItemsAfterEdit(PhotoItems, photoitem, oldCategory);
             TitleTextBlock.Text = TitleTextBox.Text;
+        }
+
+        private void okButton_Click(object sender, RoutedEventArgs e)
+        {
+            string flyoutCategoryName = Mytextbox.Text;
+            if (!string.IsNullOrEmpty(flyoutCategoryName))
+            {
+                MenuItemFactory.addCategory(MenuItems, flyoutCategoryName);
+                PhotoItemFactory.addCategory(flyoutCategoryName);
+                PhotoItemFactory.getPhotoItemsByCategory(flyoutCategoryName, PhotoItems);
+                TitleTextBlock.Text = flyoutCategoryName;
+                BackButton.Visibility = Visibility.Visible;
+                Category = flyoutCategoryName;
+                AddCategoryButton.Flyout.Hide();
+            }
+            
         }
     }
 }

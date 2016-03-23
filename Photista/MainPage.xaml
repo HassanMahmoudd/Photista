@@ -94,27 +94,7 @@
                     Margin="0,0,0,0"
                     Background="Transparent"
                     Click="AddPicButton_Click">
-                <Button.Flyout>
-                    <Flyout Placement="Bottom">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="18" Text="Category Name" />
-                                <TextBox></TextBox>
-                            </StackPanel>
-                            <Button Name="okButton"
-                                    FontFamily="Arial"
-                                    Content="ok" 
-                                    Grid.Row="1" 
-                                    HorizontalAlignment="Center" 
-                                    Width="60"
-                                    Height="30"  FontSize="18" ></Button>
-                        </Grid>
-                    </Flyout>
-                </Button.Flyout>
+               
             </Button>
 
             <Button Name="EditPicButton" 
@@ -211,6 +191,28 @@
                                 <TextBlock Text="Add" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button.Content>
+                        <Button.Flyout>
+                            <Flyout Placement="Bottom">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontSize="18" Text="Category Name" />
+                                        <TextBox Name="Mytextbox"></TextBox>
+                                    </StackPanel>
+                                    <Button Name="okButton"
+                                    FontFamily="Arial"
+                                    Content="ok" 
+                                    Grid.Row="1" 
+                                    HorizontalAlignment="Center" 
+                                    Width="60"
+                                    Height="30"  FontSize="18"
+                                    Click="okButton_Click"></Button>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
 
                     </Button>
                 </StackPanel>
