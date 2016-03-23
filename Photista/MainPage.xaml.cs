@@ -36,7 +36,7 @@ namespace Photista
         private ObservableCollection<PhotoItem> tempItems;
         private ObservableCollection<MenuItem> MenuItems;
         private List<String> Suggestions;
-        
+        private ObservableCollection<ListItem> MenuItemsWithoutFavourites;  //Hassan added
         private MenuItem menuItemTemp;
         private string Category;
         private bool isFullViewPageActivated;
@@ -51,12 +51,13 @@ namespace Photista
             PhotoItems = new ObservableCollection<PhotoItem>();
             MenuItems = new ObservableCollection<MenuItem>();
             tempItems = new ObservableCollection<PhotoItem>();
-            
+            MenuItemsWithoutFavourites = new ObservableCollection<ListItem>();  //Hassan added
             menuItemTemp = new MenuItem();
             MenuItemFactory.init();
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
+            MenuItemsWithoutFavourites = PhotoItemFactory.getAllLists();  //Hassan added
             BackButton.Visibility = Visibility.Collapsed;
             EditStackPanel.Visibility = Visibility.Collapsed;
             EditPicButton.Visibility = Visibility.Collapsed;
@@ -165,6 +166,7 @@ namespace Photista
                 AddPicButton.Visibility = Visibility.Visible;
                 deletePicButton.Visibility = Visibility.Collapsed;
                 EditStackPanel.Visibility = Visibility.Collapsed;
+                EditPicButton.Visibility = Visibility.Collapsed;  //Hassan added
                 flagEditPicButton = false;
             }
             var MenuItemTemp = (MenuItem)e.ClickedItem;
@@ -191,13 +193,14 @@ namespace Photista
                 
                 if(Category.Equals("unCategorized"))
                 {
-                   // PhotoItemFactory.getAllPhotoItems(PhotoItems);
+                    PhotoItemFactory.getAllPhotoItems(PhotoItems);  //Hassan added
                     TitleTextBlock.Text = "All Photos";
                     BackButton.Visibility = Visibility.Collapsed;
                 }
                     
                 else
-                {                  
+                {
+                    PhotoItemFactory.getPhotoItemsByCategory(menuItemTemp.Category, PhotoItems);  //Hassan added
                     TitleTextBlock.Text = Category;              
                 }
                     
@@ -381,8 +384,8 @@ namespace Photista
         private void noButton_Click(object sender, RoutedEventArgs e)
         {
             deletePicButton.Flyout.Hide();
-            deletePicButton.Visibility = Visibility.Collapsed;
-            selected = !selected;
+            //deletePicButton.Visibility = Visibility.Collapsed;  //Hassan removed
+            //selected = !selected;  //Hassan removed
            
         }
 
@@ -397,9 +400,12 @@ namespace Photista
                 TitleTextBox.Text = photoitem.Title;
                 DescriptionTextBox.Text = photoitem.Description;
                 flagEditPicButton = !flagEditPicButton;
-                MenuItem temp = (MenuItem)CategoryListBox.SelectedItem;
-                //temp = MenuItems.Select(p => p.Category == photoitem.Category);               
                 
+
+                ListItem temp = PhotoItemFactory.AllLists.Find(p => p.category == photoitem.Category);  //Hassan added
+                CategoryListBox.SelectedItem = temp;  //Hassan added
+                //temp = MenuItems.Select(p => p.Category == photoitem.Category);               
+
             }
             else
             {
@@ -414,7 +420,9 @@ namespace Photista
             photoitem.Title = TitleTextBox.Text;
             photoitem.Description = DescriptionTextBox.Text;
             String oldCategory = photoitem.Category;
-            photoitem.Category = ((MenuItem)CategoryListBox.SelectedItem).Category;
+
+            photoitem.Category = ((ListItem)CategoryListBox.SelectedItem).category;  //Hassan added
+
             
             PhotoItemFactory.updatePhotoItemsAfterEdit(PhotoItems, photoitem, oldCategory);
             TitleTextBlock.Text = TitleTextBox.Text;
@@ -434,6 +442,20 @@ namespace Photista
                 AddCategoryButton.Flyout.Hide();
             }
             
+        }
+
+        private void FavouritesButton_Click(object sender, RoutedEventArgs e)  //Hassan added
+        {
+
+            if (photoitem.IsFavorites == false)  //Hassan added
+            {
+                PhotoItemFactory.addtofavorite(photoitem);  //Hassan added
+                photoitem.IsFavorites = true;  //Hassan added
+                Uri uri = new Uri("ms-appx:///Assets/Star.png");
+                BitmapImage i = new BitmapImage(uri);  //Hassan added
+                photoitem.FavouritesIcon = i;  //Hassan added
+            }
+
         }
     }
 }

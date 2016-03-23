@@ -133,6 +133,7 @@
     <Content Include="Assets\Hassan 04.JPG" />
     <Content Include="Assets\Hassan 05.jpg" />
     <Content Include="Assets\Me-Icon.png" />
+    <Content Include="Assets\Star.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

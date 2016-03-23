@@ -20,9 +20,17 @@ namespace Photista.Model
         public static void getPhotoItemsByCategory(string Category, ObservableCollection<PhotoItem> PhotoItems)
         {
             PhotoItems.Clear();
-            temp = AllLists.Find(p => p.category == Category);
-            if(temp != null)
-            temp.list.ForEach(p => PhotoItems.Add(p));           
+            if (Category == "Favorites")  //Hassan added
+            {
+                Favorites.ForEach(p => PhotoItems.Add(p));  //Hassan added
+            }
+            else  //Hassan added
+            {
+                temp = AllLists.Find(p => p.category == Category);
+                if (temp != null)
+                    temp.list.ForEach(p => PhotoItems.Add(p));
+
+            }
             //var AllItems = getPhotoItems();
             //var FilteredItems = PhotoItems.Where(p => p.Category == Category).ToList();
             //PhotoItems.Clear();
@@ -105,6 +113,13 @@ namespace Photista.Model
 
 
 
+        }
+
+        public static ObservableCollection<ListItem> getAllLists()  //Hassan added
+        {
+            ObservableCollection<ListItem> temp = new ObservableCollection<ListItem>();
+            AllLists.ForEach(p => temp.Add(p));
+            return temp;
         }
 
         public static void updatePhotoItems(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem)

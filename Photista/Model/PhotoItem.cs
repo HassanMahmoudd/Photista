@@ -16,7 +16,8 @@ namespace Photista.Model
         public string Category { get; set; }
         public BitmapImage ImagePath { get; set; }
         public string ImagePath1 { get; set; }
-
+        public bool IsFavorites { get; set; }  //Hassan added
+        public BitmapImage FavouritesIcon { get; set; }  //Hassan added
     }
 
 }
