@@ -187,24 +187,18 @@ namespace Photista
         {
             if(isFullViewPageActivated)
             {
-
-                //MyFrame.GoBack();
-                
-                //MyFrame.Navigate(typeof(TempPage));
+               
                 
                 if(Category.Equals("unCategorized"))
                 {
-                    PhotoItemFactory.getAllPhotoItems(PhotoItems);
+                   // PhotoItemFactory.getAllPhotoItems(PhotoItems);
                     TitleTextBlock.Text = "All Photos";
                     BackButton.Visibility = Visibility.Collapsed;
                 }
                     
                 else
-                {
-                    PhotoItemFactory.getPhotoItemsByCategory(menuItemTemp.Category, PhotoItems);
-                    TitleTextBlock.Text = Category;
-                    BackButton.Visibility = Visibility.Visible;
-                    MenuItemsListView.SelectedItem = menuItemTemp;
+                {                  
+                    TitleTextBlock.Text = Category;              
                 }
                     
                
@@ -303,14 +297,22 @@ namespace Photista
                 AddPicButton.Visibility = Visibility.Visible;
                 deletePicButton.Visibility = Visibility.Collapsed;
             }
+
             if (string.IsNullOrEmpty(sender.Text)) {return;}
-            PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
+
+            PhotoItemFactory.getAllPhotoItems(tempItems);
+            PhotoItemFactory.setAllPhotoItems(PhotoItems, tempItems.Where(p => p.Title.StartsWith(sender.Text)).ToList());
+
+            //PhotoItemFactory.getPhotoItemByTitle(PhotoItems,sender.Text);
             Debug.WriteLine(sender.Text);
             if (PhotoItems == null )
             {
                 PhotoItemFactory.getAllPhotoItems(PhotoItems);
                 return;
             }
+
+
+
             if( PhotoItems.Count == 0)  TitleTextBlock.Text = "Title Not Found";
             else TitleTextBlock.Text = sender.Text;
             
@@ -319,11 +321,12 @@ namespace Photista
 
         }
 
-       
-        private void AddPicButton_Click(object sender, RoutedEventArgs e)
-        {
-            PicPicker.choosePicture(PhotoItems, Category);
 
+        private async void AddPicButton_Click(object sender, RoutedEventArgs e)
+        {
+            await PicPicker.choosePicture(PhotoItems, Category);
+            photoitem = PicPicker.photoItem;
+            if (photoitem != null) changeView();
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -336,7 +339,9 @@ namespace Photista
         {
             if (selected == false)deletePicButton.Flyout.Hide();
         }
+
         object x;
+
         private void PhotoItemControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
             selected = true;
@@ -344,7 +349,12 @@ namespace Photista
             x = sender;
             photoitem = photoitemcontrol.PhotoItem;
             deletePicButton.Visibility = Visibility.Visible;
-            
+            changeView();
+
+        }
+
+        private void changeView()
+        {
             GridImage.Source = photoitem.ImagePath;
             NewsItemGrid.Visibility = Visibility.Collapsed;
             GridImage.Visibility = Visibility.Visible;
@@ -373,10 +383,11 @@ namespace Photista
             deletePicButton.Flyout.Hide();
             deletePicButton.Visibility = Visibility.Collapsed;
             selected = !selected;
-            
-
+           
         }
+
         bool flagEditPicButton = false;
+
         private void EditPicButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -387,8 +398,7 @@ namespace Photista
                 DescriptionTextBox.Text = photoitem.Description;
                 flagEditPicButton = !flagEditPicButton;
                 MenuItem temp = (MenuItem)CategoryListBox.SelectedItem;
-                //temp = MenuItems.Select(p => p.Category == photoitem.Category);
-                
+                //temp = MenuItems.Select(p => p.Category == photoitem.Category);               
                 
             }
             else

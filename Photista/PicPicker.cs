@@ -12,7 +12,8 @@ namespace Photista
 {
     class PicPicker
     {
-        public static async void choosePicture(ObservableCollection<PhotoItem> PhotoItems, string Category)
+        public static PhotoItem photoItem;
+        public static async Task  choosePicture(ObservableCollection<PhotoItem> PhotoItems, string Category)
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
@@ -28,10 +29,16 @@ namespace Photista
             {
                 var bitmapImage = new BitmapImage();
                 bitmapImage.SetSource(await file.OpenAsync(FileAccessMode.Read));
-                PhotoItem photoItem = new PhotoItem() { Id = 10, Title = file.Name, Description = "Test Photo", Category = Category, ImagePath = bitmapImage };
+                photoItem = new PhotoItem() { Id = 10, Title = file.Name, Description = "Test Photo", Category = Category, ImagePath = bitmapImage };
                 PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
 
+
             }
+            
         }
+
+     
+
+       
     }
 }

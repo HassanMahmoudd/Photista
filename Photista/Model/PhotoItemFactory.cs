@@ -42,10 +42,21 @@ namespace Photista.Model
             //AllItems.ForEach(p => PhotoItems.Add(p));
         }
 
-       /* public static void getCategory(string Title)
+
+
+        public static void setAllPhotoItems(ObservableCollection<PhotoItem> PhotoItems , List<PhotoItem> mylist)
         {
-            
-        }*/
+            PhotoItems.Clear();
+           
+            mylist.ForEach(p => PhotoItems.Add(p));
+
+        }
+
+
+        /* public static void getCategory(string Title)
+         {
+
+         }*/
         public static void getPhotoItemByTitle(ObservableCollection<PhotoItem> PhotoItems, string Title)
         {
             PhotoItems.Clear();
@@ -62,7 +73,7 @@ namespace Photista.Model
 
         public static void deletePhotoItem(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem)
         {
-            AllLists.Where(p => p.category == photoItem.Category);
+            //AllLists.Where(p => p.category == photoItem.Category);
             temp = AllLists.Find(p => p.category == photoItem.Category);
             if (temp != null) temp.list.Remove(photoItem);
             PhotoItems.Remove(photoItem);
