@@ -8,7 +8,19 @@
     Loaded="Page_Loaded"
     xmlns:data="using:Photista.Model"
     mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <StackPanel>
+                    <TextBlock Text="All Copyrights reserved to Photista ©" Margin="12,14,0,0" FontSize="12" VerticalAlignment="Center"/>
+                    <TextBlock Text="Developed by Mahmoud Gamal and Hassan Mahmoud" Margin="12,14,0,0" FontSize="12" VerticalAlignment="Center"/>
 
+                </StackPanel>
+
+            </CommandBar.Content>
+            <AppBarButton Icon="Save" Label="Save all changes"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
@@ -239,15 +251,16 @@
                         </GridView.ItemTemplate>
 
                     </GridView>
-                    <RelativePanel Name="MyRelativePanel">
-                        <StackPanel Orientation="Horizontal" 
+                    <ScrollViewer>
+                        <RelativePanel Name="MyRelativePanel">
+                            <StackPanel Orientation="Horizontal" 
                                     RelativePanel.AlignVerticalCenterWithPanel="True"
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" >
-                            <StackPanel Name="EditStackPanel" HorizontalAlignment="Stretch"
+                                <StackPanel Name="EditStackPanel" HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch">
-                                <TextBox 
+                                    <TextBox 
                                          Name="TitleTextBox" 
                                          HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
@@ -255,7 +268,7 @@
                                          Header="Title"
                                     Width="200"
                                          />
-                                <TextBox 
+                                    <TextBox 
                                          Name="DescriptionTextBox" 
                                          HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
@@ -264,8 +277,8 @@
                                     Height="200"
                                     TextWrapping="Wrap"
                                          />
-                                <TextBlock Text="Category" Margin="0,20,20,0"/>
-                                <ListBox 
+                                    <TextBlock Text="Category" Margin="0,20,20,0"/>
+                                    <ListBox 
                                          Name="CategoryListBox" 
                                          Height="200"
                                          Margin="0,10,20,0"
@@ -274,18 +287,18 @@
                                          BorderBrush="SlateGray"
                                          
                                          >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate x:DataType="data:ListItem">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="Assets/Me-Icon.png" Height="45" Width="45" Margin="-10,0,0,0" />
-                                                <TextBlock Text="{x:Bind category}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    
-                                </ListBox>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Name="SaveEditButton" 
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate x:DataType="data:ListItem">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="Assets/Me-Icon.png" Height="45" Width="45" Margin="-10,0,0,0" />
+                                                    <TextBlock Text="{x:Bind category}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                    </ListBox>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Name="SaveEditButton" 
                                 Margin="0,20,20,0"
                                 FontFamily="Segoe MDL2 Assets" 
                                 Content="&#xE105;"
@@ -296,7 +309,7 @@
                                 Click="SaveEditButton_Click"
                                 Background="Transparent"
                                 />
-                                    <Button Name="FavouritesButton" 
+                                        <Button Name="FavouritesButton" 
                                     Margin="0,20,20,0"
                                     FontFamily="Segoe MDL2 Assets" 
                                     Content="&#xE113;"
@@ -307,13 +320,15 @@
                                     Click="FavouritesButton_Click"
                                     Background="Transparent"
                                 />
+                                    </StackPanel>
+
                                 </StackPanel>
-                                
+                                <Image Name="GridImage" Stretch="Uniform"/>
                             </StackPanel>
-                            <Image Name="GridImage" Stretch="Uniform"/>
-                        </StackPanel>
-                        
-                    </RelativePanel>
+
+                        </RelativePanel>
+                    </ScrollViewer>
+                    
                     
                 </Grid>
             </SplitView.Content>
