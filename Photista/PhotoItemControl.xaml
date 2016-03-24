@@ -49,33 +49,30 @@
 
         <Image Name="MyImage" Source="{x:Bind PhotoItem.ImagePath}" Stretch="Uniform"/>
         <RelativePanel Grid.Row="1" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel Name="MyStackPanel" RelativePanel.AlignLeftWithPanel="True">
-                        <TextBlock Text="{x:Bind PhotoItem.Title}"
+
+            <StackPanel Name="MyStackPanel" RelativePanel.AlignLeftWithPanel="True">
+                <TextBlock Text="{x:Bind PhotoItem.Title}"
                        RelativePanel.AlignTopWithPanel="True"
                        FontSize="16"
                        TextWrapping="Wrap"
                        Name="ImageTitleTextBlock"
                        Margin="2"/>
-                        <TextBlock Text="{x:Bind PhotoItem.Description}"
+                <TextBlock Text="{x:Bind PhotoItem.Description}"
                        RelativePanel.Below="ImageTitleTextBlock"
                        TextWrapping="Wrap"
                        Margin="2"
                        Name="ImageDescriptionTextBlock"
                        FontSize="10"/>
-                        <TextBlock Text="{x:Bind PhotoItem.Category}"
+                <TextBlock Text="{x:Bind PhotoItem.Category}"
                        RelativePanel.Below="ImageDescriptionTextBlock"
                        Margin="2"
                        Name="ImageCategoryTextBlock"
                        FontSize="10"/>
-                    </StackPanel>
-                    <Image Name="FavouritesIcon" Width="50" Height="55" Source="{x:Bind PhotoItem.FavouritesIcon}" 
-                           RelativePanel.RightOf="MyStackPanel" Margin="20" RelativePanel.AlignLeftWithPanel="True"/>
-               
-                
             </StackPanel>
-            
-            
+            <Image Name="FavouritesIcon" Width="50" Height="55" Source="{x:Bind PhotoItem.FavouritesIcon}" 
+                            Margin="10" RelativePanel.AlignRightWithPanel="True"/>
+
+
         </RelativePanel>
     </Grid>
 </UserControl>

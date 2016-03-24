@@ -40,12 +40,13 @@ namespace Photista
         private MenuItem menuItemTemp;
         private string Category;
         private bool isFullViewPageActivated;
-
+        private String splitViewPaneLength;  //Hassan added NEW
        
         public MainPage()
         {
             this.InitializeComponent();
             selected = false;
+            splitViewPaneLength = "150";  //Hassan added NEW
             photoitem = new PhotoItem();
             photoitemcontrol = new PhotoItemControl();
             PhotoItems = new ObservableCollection<PhotoItem>();
@@ -170,6 +171,10 @@ namespace Photista
                 flagEditPicButton = false;
             }
             var MenuItemTemp = (MenuItem)e.ClickedItem;
+            if(MenuItemTemp.Category == "Favorites")  //Hassan added NEW
+                AddPicButton.Visibility = Visibility.Collapsed;  //Hassan added NEW
+            else  //Hassan added NEW
+                AddPicButton.Visibility = Visibility.Visible;  //Hassan added NEW
             PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
             TitleTextBlock.Text = MenuItemTemp.Category;
             BackButton.Visibility = Visibility.Visible;
@@ -223,6 +228,7 @@ namespace Photista
                 MenuItemsListView.SelectedItem = null;
                 Category = "unCategorized";
                 SearchAutoSuggestBox.Text = "";
+                AddPicButton.Visibility = Visibility.Visible;  //Hassan added NEW
             }           
             
         }
@@ -262,9 +268,17 @@ namespace Photista
                         StorageFile newFile = await storageFile.CopyAsync(folder2, storageFile.Name, NameCollisionOption.GenerateUniqueName);
                         var bitmapImage = new BitmapImage();
                         bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
-                        PhotoItem photoItem = new PhotoItem() { Id = ID, Title = title + ID.ToString() , Description = "Test Photo", Category = Category, ImagePath = bitmapImage};
+                        photoitem = new PhotoItem() { Id = ID, Title = title + ID.ToString() , Description = "Test Photo", Category = Category, ImagePath = bitmapImage};  //Hassan modified NEW
                         ID++;
-                        PhotoItemFactory.updatePhotoItems(PhotoItems, photoItem);
+                        PhotoItemFactory.updatePhotoItems(PhotoItems, photoitem);  //Hassan modified NEW
+                        if (photoitem != null)  //Hassan added NEW
+                        {
+                            changeView();  //Hassan added NEW
+                            EditStackPanel.Visibility = Visibility.Visible;  //Hassan added NEW
+                            TitleTextBox.Text = "";  //Hassan added NEW
+                            DescriptionTextBox.Text = "";  //Hassan added NEW
+                            CategoryListBox.SelectedItem = null;  //Hassan added NEW
+                        }
                     }
                 }
                 WaterMarkTextBlock.Visibility = Visibility.Collapsed;
@@ -273,12 +287,20 @@ namespace Photista
 
         private void NewsItemGrid_DragOver(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = DataPackageOperation.Copy;
+            if (menuItemTemp.Category == "Favorites")  //Hassan added NEW
+            {
+                e.DragUIOverride.Caption = "Can't directly add to favourites";  //Hassan added NEW
+            }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
 
-            e.DragUIOverride.Caption = "Drop to add image";
-            e.DragUIOverride.IsCaptionVisible = true;
-            e.DragUIOverride.IsContentVisible = true;
-            e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.Caption = "Drop to add image";
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsContentVisible = true;
+                e.DragUIOverride.IsGlyphVisible = true;
+            }
+            
         }
 
         private void SearchAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -329,7 +351,14 @@ namespace Photista
         {
             await PicPicker.choosePicture(PhotoItems, Category);
             photoitem = PicPicker.photoItem;
-            if (photoitem != null) changeView();
+            if (photoitem != null)
+            {
+                changeView();
+                EditStackPanel.Visibility = Visibility.Visible;  //Hassan added NEW
+                TitleTextBox.Text = "";  //Hassan added NEW
+                DescriptionTextBox.Text = "";  //Hassan added NEW
+                CategoryListBox.SelectedItem = null;  //Hassan added NEW
+            }
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -365,6 +394,7 @@ namespace Photista
             TitleTextBlock.Text = photoitem.Title;
             AddPicButton.Visibility = Visibility.Collapsed;
             EditPicButton.Visibility = Visibility.Visible;
+            
             isFullViewPageActivated = true;
         }
 
@@ -378,6 +408,7 @@ namespace Photista
                     {
                         PhotoItemFactory.removefromfavorite(photoitem);
                         photoitem.FavouritesIcon = null;
+                        photoitem.IsFavorites = false;  //Hassan added NEW
                     }
                 }
                 else 
@@ -431,15 +462,22 @@ namespace Photista
         
         private void SaveEditButton_Click(object sender, RoutedEventArgs e)
         {
-            photoitem.Title = TitleTextBox.Text;
-            photoitem.Description = DescriptionTextBox.Text;
-            String oldCategory = photoitem.Category;
+            if(TitleTextBox.Text == "" || DescriptionTextBox.Text == "" || CategoryListBox.SelectedItem == null) //Hassan added NEW
+            {
+                SaveButtonTextBlock.Text = "Please fill all the blanks";
+            }
+            else
+            {
+                photoitem.Title = TitleTextBox.Text;
+                photoitem.Description = DescriptionTextBox.Text;
+                String oldCategory = photoitem.Category;
 
-            photoitem.Category = ((ListItem)CategoryListBox.SelectedItem).category;  //Hassan added
-
+                photoitem.Category = ((ListItem)CategoryListBox.SelectedItem).category;  //Hassan added
+                PhotoItemFactory.updatePhotoItemsAfterEdit(PhotoItems, photoitem, oldCategory);
+                TitleTextBlock.Text = TitleTextBox.Text;
+                SaveButtonTextBlock.Text = "Changes saved successfully";  //Hassan added NEW
+            }
             
-            PhotoItemFactory.updatePhotoItemsAfterEdit(PhotoItems, photoitem, oldCategory);
-            TitleTextBlock.Text = TitleTextBox.Text;
         }
 
         private void okButton_Click(object sender, RoutedEventArgs e)
@@ -453,6 +491,13 @@ namespace Photista
                 TitleTextBlock.Text = flyoutCategoryName;
                 BackButton.Visibility = Visibility.Visible;
                 Category = flyoutCategoryName;
+               
+                foreach(var p in MenuItems)  //Hassan added NEW
+                {
+
+                    if (p.Category.Length > 10)
+                        splitViewPaneLength = ((p.Category.Length)*15).ToString();
+                }
                 AddCategoryButton.Flyout.Hide();
             }
             
@@ -468,8 +513,21 @@ namespace Photista
                 Uri uri = new Uri("ms-appx:///Assets/Star2.png");
                 BitmapImage i = new BitmapImage(uri);  //Hassan added
                 photoitem.FavouritesIcon = i;  //Hassan added
+                FavouritesButtonTextBlock.Text = "Added successfully to Favourites";  //Hassan added NEW
             }
+            else
+                FavouritesButtonTextBlock.Text = "Already added to Favourites!";  //Hassan added NEW
 
+        }
+
+        private void okSaveButton_Click(object sender, RoutedEventArgs e)  //Hassan added NEW
+        {
+            SaveButtonFlyout.Hide();
+        }
+
+        private void okFavouritesButton_Click(object sender, RoutedEventArgs e)  //Hassan added NEW
+        {
+            FavouritesButtonFlyout.Hide();
         }
     }
 }
