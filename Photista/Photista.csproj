@@ -133,6 +133,15 @@
     <Content Include="Assets\Hassan 03.jpg" />
     <Content Include="Assets\Hassan 04.JPG" />
     <Content Include="Assets\Hassan 05.jpg" />
+    <Content Include="Assets\Logo1240-600.jpg" />
+    <Content Include="Assets\Logo1240-600.png" />
+    <Content Include="Assets\Logo1240-600Up.png" />
+    <Content Include="Assets\Logo1240-600UpEditedLarge.png" />
+    <Content Include="Assets\Logo310-310.jpg" />
+    <Content Include="Assets\Logo310-310.scale-100.jpg" />
+    <Content Include="Assets\Logo310-310.scale-200.jpg" />
+    <Content Include="Assets\Logo620-620.jpg" />
+    <Content Include="Assets\LogoInsideApp.png" />
     <Content Include="Assets\Me-Icon.png" />
     <Content Include="Assets\Star.png" />
     <Content Include="Assets\star2.png" />

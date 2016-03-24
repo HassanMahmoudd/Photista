@@ -83,7 +83,52 @@
                        Margin="10,15,0,0"
                        VerticalAlignment="Center"
                        Text="All Photos"/>
+            <Button Name="DeleteCategoryButton"
+                    RelativePanel.RightOf="TitleTextBlock"
+                    Width="50"
+                    Height="55"
+                    FontSize="20"
+                    HorizontalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE107;"
+                    Click="DeleteCategoryButton_Click"
+                    Margin="0,0,0,0"
+                    Background="Transparent">
+                <Button.Flyout>
+                    <Flyout x:Name="DeleteCategoryButtonFlyout">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="18" Text="Do You Want to Delete Whole Category ? " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button Name="yesDeleteCategoryButton"
+                                    FontFamily="Arial"
+                                    Content="Yes" 
+                                    Grid.Row="1" 
+                                    Width="60"
+                                    Height="30"
+                                    FontSize="18"
+                                    Background="Transparent"
+                                    Margin="0,0,10,0"
+                                    Click="yesDeleteCategoryButton_Click"></Button>
 
+                                <Button Name="noDeleteCategoryButton"
+                                    FontFamily="Arial"
+                                    Content="No" 
+                                    Grid.Row="1" 
+                                    Width="60"
+                                    Height="30" 
+                                    FontSize="18"
+                                    Background="Transparent"
+                                   Click="noDeleteCategoryButton_Click"></Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <AutoSuggestBox Name="SearchAutoSuggestBox"
                             QueryIcon="Find" 
                             PlaceholderText="Search" 
@@ -106,7 +151,7 @@
                     Margin="0,0,0,0"
                     Background="Transparent"
                     Click="AddPicButton_Click">
-               
+
             </Button>
 
             <Button Name="EditPicButton" 
@@ -252,15 +297,17 @@
                         </GridView.ItemTemplate>
 
                     </GridView>
-                    <RelativePanel Name="MyRelativePanel">
+                    <RelativePanel Name="MyRelativePanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" 
                                     RelativePanel.AlignVerticalCenterWithPanel="True"
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" >
-                            <StackPanel Name="EditStackPanel" HorizontalAlignment="Stretch"
+                            <ScrollViewer>
+                                <StackPanel Name="EditStackPanel" HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch">
-                                <TextBox 
+
+                                    <TextBox 
                                          Name="TitleTextBox" 
                                          HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
@@ -268,7 +315,7 @@
                                          Header="Title"
                                     Width="200"
                                          />
-                                <TextBox 
+                                    <TextBox 
                                          Name="DescriptionTextBox" 
                                          HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
@@ -277,8 +324,8 @@
                                     Height="200"
                                     TextWrapping="Wrap"
                                          />
-                                <TextBlock Text="Category" Margin="0,20,20,0"/>
-                                <ListBox 
+                                    <TextBlock Text="Category" Margin="0,20,20,0"/>
+                                    <ListBox 
                                          Name="CategoryListBox" 
                                          Height="200"
                                          Margin="0,10,20,0"
@@ -287,18 +334,18 @@
                                          BorderBrush="SlateGray"
                                          
                                          >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate x:DataType="data:ListItem">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="Assets/Me-Icon.png" Height="45" Width="45" Margin="-10,0,0,0" />
-                                                <TextBlock Text="{x:Bind category}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    
-                                </ListBox>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Name="SaveEditButton" 
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate x:DataType="data:ListItem">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="Assets/Me-Icon.png" Height="45" Width="45" Margin="-10,0,0,0" />
+                                                    <TextBlock Text="{x:Bind category}" FontSize="18" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                    </ListBox>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Name="SaveEditButton" 
                                             Margin="0,20,20,0"
                                             FontFamily="Segoe MDL2 Assets" 
                                             Content="&#xE105;"
@@ -308,16 +355,16 @@
                                             HorizontalAlignment="Center"
                                             Click="SaveEditButton_Click"
                                             Background="Transparent">
-                                        <Button.Flyout>
-                                            <Flyout x:Name="SaveButtonFlyout" Placement="Bottom">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Name="SaveButtonTextBlock" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Button.Flyout>
+                                                <Flyout x:Name="SaveButtonFlyout" Placement="Bottom">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Name="SaveButtonTextBlock" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-                                                    <Button Name="okSaveButton"
+                                                        <Button Name="okSaveButton"
                                                                 FontFamily="Arial"
                                                                 Content="Ok" 
                                                                 Grid.Row="1" 
@@ -329,13 +376,13 @@
                                                                 Margin="0,0,10,0"
                                                                 Click="okSaveButton_Click">
 
-                                                    </Button>
-                                                </Grid>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
+                                                        </Button>
+                                                    </Grid>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
 
-                                    <Button Name="FavouritesButton" 
+                                        <Button Name="FavouritesButton" 
                                     Margin="0,20,20,0"
                                     FontFamily="Segoe MDL2 Assets" 
                                     Content="&#xE113;"
@@ -346,16 +393,16 @@
                                     Click="FavouritesButton_Click"
                                     Background="Transparent">
 
-                                        <Button.Flyout>
-                                            <Flyout x:Name="FavouritesButtonFlyout" Placement="Bottom">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Name="FavouritesButtonTextBlock" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Button.Flyout>
+                                                <Flyout x:Name="FavouritesButtonFlyout" Placement="Bottom">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Name="FavouritesButtonTextBlock" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-                                                    <Button Name="okFavouritesButton"
+                                                        <Button Name="okFavouritesButton"
                                                                 FontFamily="Arial"
                                                                 Content="Ok" 
                                                                 Grid.Row="1" 
@@ -367,25 +414,27 @@
                                                                 Margin="0,0,10,0"
                                                                 Click="okFavouritesButton_Click">
 
-                                                    </Button>
-                                                </Grid>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
+                                                        </Button>
+                                                    </Grid>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                    </StackPanel>
+
                                 </StackPanel>
-                                
-                            </StackPanel>
+                            </ScrollViewer>
+
                             <Image Name="GridImage" Stretch="Uniform"/>
                         </StackPanel>
-                        
+
                     </RelativePanel>
-                    
+
                 </Grid>
             </SplitView.Content>
 
 
         </SplitView>
-        
+
 
     </Grid>
 

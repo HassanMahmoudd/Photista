@@ -46,7 +46,7 @@ namespace Photista
         {
             this.InitializeComponent();
             selected = false;
-            splitViewPaneLength = "150";  //Hassan added NEW
+            splitViewPaneLength = "200";  //Hassan added NEW
             photoitem = new PhotoItem();
             photoitemcontrol = new PhotoItemControl();
             PhotoItems = new ObservableCollection<PhotoItem>();
@@ -65,8 +65,8 @@ namespace Photista
             Category = "unCategorized";
             GridImage.Visibility = Visibility.Collapsed;
             WaterMarkTextBlock.Visibility = Visibility.Collapsed;
+            DeleteCategoryButton.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW
 
-            
 
 
             // testing code
@@ -198,6 +198,12 @@ namespace Photista
             Category = MenuItemTemp.Category;
             TitleTextBlock.Text = Category;
             menuItemTemp = MenuItemTemp;
+            if (menuItemTemp.Category == "Me" || menuItemTemp.Category == "Friends" || menuItemTemp.Category == "Favorites")  //Hassan added NEW NEW
+            {
+                DeleteCategoryButton.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW
+            }
+            else
+                DeleteCategoryButton.Visibility = Visibility.Visible;  //Hassan added NEW NEW
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -223,7 +229,13 @@ namespace Photista
                 else
                 {
                     PhotoItemFactory.getPhotoItemsByCategory(menuItemTemp.Category, PhotoItems);  //Hassan added
-                    TitleTextBlock.Text = Category;              
+                    TitleTextBlock.Text = Category;
+                    if (menuItemTemp.Category == "Me" || menuItemTemp.Category == "Friends" || menuItemTemp.Category == "Favorites")  //Hassan added NEW NEW
+                    {
+                        DeleteCategoryButton.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW
+                    }
+                    else
+                        DeleteCategoryButton.Visibility = Visibility.Visible;  //Hassan added NEW NEW              
                 }
                     
                
@@ -246,6 +258,7 @@ namespace Photista
                 Category = "unCategorized";
                 SearchAutoSuggestBox.Text = "";
                 AddPicButton.Visibility = Visibility.Visible;  //Hassan added NEW
+                DeleteCategoryButton.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW
             }           
             
         }
@@ -411,7 +424,7 @@ namespace Photista
             TitleTextBlock.Text = photoitem.Title;
             AddPicButton.Visibility = Visibility.Collapsed;
             EditPicButton.Visibility = Visibility.Visible;
-            
+            DeleteCategoryButton.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW
             isFullViewPageActivated = true;
         }
 
@@ -551,6 +564,25 @@ namespace Photista
         {
              saveMenuItems();
              savePhotoItems();
+        }
+        private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void yesDeleteCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemFactory.Items.Remove(menuItemTemp);
+            MenuItems.Remove(menuItemTemp);
+            var temp = PhotoItemFactory.AllLists.Find(p => p.category == menuItemTemp.Category);
+            PhotoItemFactory.AllLists.Remove(temp);
+            goBack();
+            DeleteCategoryButtonFlyout.Hide();  //Hassan added NEW NEW
+        }
+
+        private void noDeleteCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteCategoryButtonFlyout.Hide();  //Hassan added NEW NEW
         }
     }
 }
