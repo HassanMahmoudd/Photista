@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Photista.Model
 {
@@ -14,12 +15,19 @@ namespace Photista.Model
         public async static void init()
         {
             Items = new List<MenuItem>();
-           /* Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
+            try {
+                var file = await ApplicationData.Current.LocalFolder.GetFileAsync("MenuItem.json");
+                await JsonHandler.deserializeJsonAsync();
+                var list = JsonHandler.MyMenuList;
+                list.ForEach(p => Items.Add(p));
+            }catch(Exception e)
+            {
+            Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
             Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Friends" });
-            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });*/
-            await JsonHandler.deserializeJsonAsync();
-            var list = JsonHandler.MyMenuList;
-            list.ForEach(p => Items.Add(p));
+            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });
+            }
+
+
         }
 
         public static ObservableCollection<MenuItem> getMenuItems()

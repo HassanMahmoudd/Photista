@@ -167,6 +167,12 @@ namespace Photista
             
         }
 
+        public async void savePhotoItems()
+        {
+            await JsonHandler.writephotoJsonAsync();
+
+        }
+
         private void MenuItemsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if(isFullViewPageActivated)
@@ -544,6 +550,7 @@ namespace Photista
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
              saveMenuItems();
+             //savePhotoItems();
         }
     }
 }

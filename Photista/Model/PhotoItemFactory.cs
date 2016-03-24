@@ -130,8 +130,18 @@ namespace Photista.Model
         {
             AllLists.Where(p => p.category == photoItem.Category);
             temp = AllLists.Find(p => p.category == photoItem.Category);
-            if (temp != null) temp.list.Add(photoItem);           
-            PhotoItems.Add(photoItem);
+            if (temp != null)
+            {
+                temp.list.Add(photoItem);
+                PhotoItems.Add(photoItem);
+            }
+
+            else
+            {
+                addCategory(photoItem.Category);
+                updatePhotoItems(PhotoItems, photoItem);
+            }        
+            
         }
 
         public static void updatePhotoItemsAfterEdit(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem, String oldCategory)
