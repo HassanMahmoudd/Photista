@@ -148,7 +148,7 @@ namespace Photista
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
         }
-
+       
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             
@@ -374,7 +374,11 @@ namespace Photista
             {
                 if (Category.Equals("Favorites"))
                 {
-                    if (PhotoItemFactory.isfavorite(photoitem)) PhotoItemFactory.removefromfavorite(photoitem);
+                    if (PhotoItemFactory.isfavorite(photoitem))
+                    {
+                        PhotoItemFactory.removefromfavorite(photoitem);
+                        photoitem.FavouritesIcon = null;
+                    }
                 }
                 else 
                 {
