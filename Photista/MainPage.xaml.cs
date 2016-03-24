@@ -372,7 +372,17 @@ namespace Photista
         {
             if (selected)
             {
-                PhotoItemFactory.deletePhotoItem(PhotoItems, photoitem);
+                if (Category.Equals("Favorites"))
+                {
+                    if (PhotoItemFactory.isfavorite(photoitem)) PhotoItemFactory.removefromfavorite(photoitem);
+                }
+                else 
+                {
+                    if (PhotoItemFactory.isfavorite(photoitem)) PhotoItemFactory.removefromfavorite(photoitem);
+                    PhotoItemFactory.deletePhotoItem(PhotoItems, photoitem);
+                }
+                
+
                 selected = !selected;
             }
             deletePicButton.Flyout.Hide();
@@ -451,7 +461,7 @@ namespace Photista
             {
                 PhotoItemFactory.addtofavorite(photoitem);  //Hassan added
                 photoitem.IsFavorites = true;  //Hassan added
-                Uri uri = new Uri("ms-appx:///Assets/Star.png");
+                Uri uri = new Uri("ms-appx:///Assets/Star2.png");
                 BitmapImage i = new BitmapImage(uri);  //Hassan added
                 photoitem.FavouritesIcon = i;  //Hassan added
             }

@@ -91,6 +91,10 @@ namespace Photista.Model
         {
             Favorites.Add(photoItem);
         }
+        public static Boolean isfavorite(PhotoItem photoItem)
+        {
+            return Favorites.Contains(photoItem);
+        }
         public static void removefromfavorite(PhotoItem photoItem)
         {
             Favorites.Remove(photoItem);
