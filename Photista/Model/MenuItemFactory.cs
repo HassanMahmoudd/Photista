@@ -11,12 +11,15 @@ namespace Photista.Model
     {
         public static List<MenuItem> Items;
 
-        public static void init()
+        public async static void init()
         {
             Items = new List<MenuItem>();
-            Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
+           /* Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
             Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Friends" });
-            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });
+            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });*/
+            await JsonHandler.deserializeJsonAsync();
+            var list = JsonHandler.MyMenuList;
+            list.ForEach(p => Items.Add(p));
         }
 
         public static ObservableCollection<MenuItem> getMenuItems()

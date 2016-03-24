@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photista.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,22 +13,44 @@ namespace Photista
     class JsonHandler
     {
         private const String JSONFILENAME = "data.json";
-        private List<String> MyList; //List which will have he data
-        public async Task writeJsonAsync()
+        public static List<MenuItem> MyMenuList;
+        public static List<ListItem> MyPhotoList;
+        public static async Task writeJsonAsync()
         {
-            var serializer = new DataContractJsonSerializer(typeof(List<String>));
+            MyMenuList = MenuItemFactory.Items;
+            var serializer = new DataContractJsonSerializer(typeof(List<MenuItem>));
             using (var stream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync(JSONFILENAME, CreationCollisionOption.ReplaceExisting))
             {
-                serializer.WriteObject(stream, MyList);
+                serializer.WriteObject(stream, MyMenuList);
             }
                 
         }
 
-        public async Task deserializeJsonAsync()
+        public static async Task deserializeJsonAsync()
         {
-            var jsonSerializer = new DataContractJsonSerializer(typeof(List<String>));
+            var jsonSerializer = new DataContractJsonSerializer(typeof(List<MenuItem>));
             var myStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync(JSONFILENAME);
-            List<String> result = (List<String>)jsonSerializer.ReadObject(myStream);
+            MyMenuList = (List<MenuItem>)jsonSerializer.ReadObject(myStream);
+        }
+
+
+
+        public static async Task writephotoJsonAsync()
+        {
+            MyPhotoList = MenuItemFactory.Items;
+            var serializer = new DataContractJsonSerializer(typeof(List<ListItem>));
+            using (var stream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync(JSONFILENAME, CreationCollisionOption.ReplaceExisting))
+            {
+                serializer.WriteObject(stream, MyPhotoList);
+            }
+
+        }
+
+        public static async Task deserializephotoJsonAsync()
+        {
+            var jsonSerializer = new DataContractJsonSerializer(typeof(List<ListItem>));
+            var myStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync(JSONFILENAME);
+            MyPhotoList = (List<ListItem>)jsonSerializer.ReadObject(myStream);
         }
     }
 }

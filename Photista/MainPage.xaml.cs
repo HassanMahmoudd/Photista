@@ -65,7 +65,10 @@ namespace Photista
             Category = "unCategorized";
             GridImage.Visibility = Visibility.Collapsed;
             WaterMarkTextBlock.Visibility = Visibility.Collapsed;
+
             
+
+
             // testing code
             Uri uri = new Uri("ms-appx:///Assets/Friends 01.JPG");
             BitmapImage i = new BitmapImage(uri);
@@ -150,9 +153,17 @@ namespace Photista
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
         }
        
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+                        
             
+
+        }
+
+
+        public async void saveMenuItems()
+        {
+            await JsonHandler.writeJsonAsync();
             
         }
 
@@ -528,6 +539,11 @@ namespace Photista
         private void okFavouritesButton_Click(object sender, RoutedEventArgs e)  //Hassan added NEW
         {
             FavouritesButtonFlyout.Hide();
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+             saveMenuItems();
         }
     }
 }

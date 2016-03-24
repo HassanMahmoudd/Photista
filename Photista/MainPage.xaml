@@ -18,7 +18,7 @@
                 </StackPanel>
 
             </CommandBar.Content>
-            <AppBarButton Icon="Save" Label="Save all changes"/>
+            <AppBarButton Icon="Save" Label="Save all changes" Click="AppBarButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
