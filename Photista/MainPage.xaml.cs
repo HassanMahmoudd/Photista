@@ -550,7 +550,7 @@ namespace Photista
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
              saveMenuItems();
-             //savePhotoItems();
+             savePhotoItems();
         }
     }
 }
