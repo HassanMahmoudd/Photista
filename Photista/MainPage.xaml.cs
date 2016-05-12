@@ -58,7 +58,7 @@ namespace Photista
             MenuItems = MenuItemFactory.getMenuItems();
             PhotoItemFactory.init();
             PhotoItemFactory.getAllPhotoItems(PhotoItems);
-            MenuItemsWithoutFavourites = PhotoItemFactory.getAllLists();  //Hassan added
+            PhotoItemFactory.getAllLists(MenuItemsWithoutFavourites); //Hassan updated NEW
             BackButton.Visibility = Visibility.Collapsed;
             EditStackPanel.Visibility = Visibility.Collapsed;
             EditPicButton.Visibility = Visibility.Collapsed;
@@ -163,13 +163,13 @@ namespace Photista
 
         public async void saveMenuItems()
         {
-            await JsonHandler.writeJsonAsync();
+            //await JsonHandler.writeJsonAsync();
             
         }
 
         public async void savePhotoItems()
         {
-            await JsonHandler.writephotoJsonAsync();
+            //await JsonHandler.writephotoJsonAsync();
 
         }
 
@@ -189,9 +189,17 @@ namespace Photista
             }
             var MenuItemTemp = (MenuItem)e.ClickedItem;
             if(MenuItemTemp.Category == "Favorites")  //Hassan added NEW
+            {
                 AddPicButton.Visibility = Visibility.Collapsed;  //Hassan added NEW
+                DeleteButtonFlyoutTextBlock.Text = "Do you want to remove from favourites ?";  //Hassan added NEW NEW NEW
+            }
+                
             else  //Hassan added NEW
+            {
+                DeleteButtonFlyoutTextBlock.Text = "Do You Want to Delete Selected Photo ?";  //Hassan added NEW NEW NEW
                 AddPicButton.Visibility = Visibility.Visible;  //Hassan added NEW
+            }
+               
             PhotoItemFactory.getPhotoItemsByCategory(MenuItemTemp.Category, PhotoItems);
             TitleTextBlock.Text = MenuItemTemp.Category;
             BackButton.Visibility = Visibility.Visible;
@@ -237,8 +245,8 @@ namespace Photista
                     else
                         DeleteCategoryButton.Visibility = Visibility.Visible;  //Hassan added NEW NEW              
                 }
-                    
-               
+
+                
                 isFullViewPageActivated = false;
                 GridImage.Source = null;
                 GridImage.Visibility = Visibility.Collapsed;
@@ -479,6 +487,7 @@ namespace Photista
 
                 ListItem temp = PhotoItemFactory.AllLists.Find(p => p.category == photoitem.Category);  //Hassan added
                 CategoryListBox.SelectedItem = temp;  //Hassan added
+                MyScrollViewer.Visibility = Visibility.Visible;  //Hassan added NEW NEW NEW
                 //temp = MenuItems.Select(p => p.Category == photoitem.Category);               
 
             }
@@ -486,6 +495,7 @@ namespace Photista
             {
                 EditStackPanel.Visibility = Visibility.Collapsed;
                 flagEditPicButton = !flagEditPicButton;
+                MyScrollViewer.Visibility = Visibility.Collapsed;  //Hassan added NEW NEW NEW
             }
                 
         }
@@ -521,8 +531,8 @@ namespace Photista
                 TitleTextBlock.Text = flyoutCategoryName;
                 BackButton.Visibility = Visibility.Visible;
                 Category = flyoutCategoryName;
-               
-                foreach(var p in MenuItems)  //Hassan added NEW
+                PhotoItemFactory.getAllLists(MenuItemsWithoutFavourites); //Hassan updated NEW
+                foreach (var p in MenuItems)  //Hassan added NEW
                 {
 
                     if (p.Category.Length > 10)
@@ -560,11 +570,11 @@ namespace Photista
             FavouritesButtonFlyout.Hide();
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        /*private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
              saveMenuItems();
              savePhotoItems();
-        }
+        }*/
         private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
         {
 

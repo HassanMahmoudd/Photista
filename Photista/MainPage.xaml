@@ -18,7 +18,7 @@
                 </StackPanel>
 
             </CommandBar.Content>
-            <AppBarButton Icon="Save" Label="Save all changes" Click="AppBarButton_Click"/>
+            <!--<AppBarButton Icon="Save" Label="Save all changes" Click="AppBarButton_Click"/>-->
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -187,7 +187,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock FontSize="18" Text="Do You Want to Delete Selected Photo ? " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Name="DeleteButtonFlyoutTextBlock" FontSize="18" Text="Do You Want to Delete Selected Photo ? " HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
                                 <Button Name="yesButton"
                                     FontFamily="Arial"
@@ -303,7 +303,7 @@
                                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" >
-                            <ScrollViewer>
+                            <ScrollViewer Name="MyScrollViewer">
                                 <StackPanel Name="EditStackPanel" HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch">
 

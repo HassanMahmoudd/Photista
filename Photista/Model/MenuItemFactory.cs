@@ -15,16 +15,17 @@ namespace Photista.Model
         public async static void init()
         {
             Items = new List<MenuItem>();
-            try {
+            /*try {
                 var file = await ApplicationData.Current.LocalFolder.GetFileAsync("MenuItem.json");
                 await JsonHandler.deserializeJsonAsync();
                 var list = JsonHandler.MyMenuList;
                 list.ForEach(p => Items.Add(p));
-            }catch(Exception e)
+            }
+            catch(Exception e)*/
             {
-            Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
-            Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Friends" });
-            Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });
+                Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Me" });
+                Items.Add(new MenuItem (){ Icon = "Assets/Me-Icon.png", Category = "Friends" });
+                Items.Add(new MenuItem() { Icon = "Assets/Me-Icon.png", Category = "Favorites" });
             }
 
 

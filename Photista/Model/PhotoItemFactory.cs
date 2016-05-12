@@ -119,11 +119,12 @@ namespace Photista.Model
 
         }
 
-        public static ObservableCollection<ListItem> getAllLists()  //Hassan added
+        public static void getAllLists(ObservableCollection<ListItem> MenuItemsWithoutFavourites)  //Hassan updated NEW
         {
-            ObservableCollection<ListItem> temp = new ObservableCollection<ListItem>();
-            AllLists.ForEach(p => temp.Add(p));
-            return temp;
+            MenuItemsWithoutFavourites.Clear();
+            //ObservableCollection<ListItem> temp = new ObservableCollection<ListItem>();
+            AllLists.ForEach(p => MenuItemsWithoutFavourites.Add(p));
+            //return temp;
         }
 
         public static void updatePhotoItems(ObservableCollection<PhotoItem> PhotoItems, PhotoItem photoItem)

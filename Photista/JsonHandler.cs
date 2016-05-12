@@ -122,7 +122,7 @@ namespace Photista
             //WriteableBitmap WriteableBitmapObject = new WriteableBitmap(Imlist.First().PixelWidth, Imlist.First().PixelHeight);
             
 
-            /*serializer = new DataContractJsonSerializer(typeof(List<BitmapImage>));
+           /* serializer = new DataContractJsonSerializer(typeof(List<BitmapImage>));
             using (var stream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync(JSONFILENAMEFavIconlist, CreationCollisionOption.ReplaceExisting))
             {
                 serializer.WriteObject(stream, FavIconlist);
